@@ -2,466 +2,382 @@
 <html lang="de">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#06080c">
-
-  <title>135er Heli Control — Helicopter Controls für MSFS & X-Plane</title>
-  <meta name="description" content="135er Heli Control: vollständige Helicopter-Steuerung mit Cyclic, Collective, Anti-Torque-Pedalen und Toe Brakes. Hall-Sensorik, USB HID, RP2350, Open Source.">
-  <meta name="keywords" content="Helicopter Simulator Controls, Cyclic, Collective, Pedals, Toe Brakes, MSFS, X-Plane, Hall Sensor, Open Source Flight Controls">
-  <link rel="canonical" href="https://dezender.de/helicopter-controller/">
-  <link rel="icon" type="image/svg+xml" href="assets/brand-mark.svg">
-
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#02070a">
+  <meta name="description" content="135er Heli Control bündelt Cyclic, Collective, Anti-Torque-Pedale und Toe Brakes in einem offenen, kontaktlosen Helicopter-Control-System für MSFS, X-Plane und weitere Simulatoren.">
+  <meta name="robots" content="index,follow,max-image-preview:large">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="135er Heli Control — Built for rotary flight.">
-  <meta property="og:description" content="Cyclic, Collective, Anti-Torque-Pedale und Toe Brakes in einem offenen Helicopter-Control-System für Simulatorpiloten.">
+  <meta property="og:title" content="135er Heli Control · Vollständige Helicopter-Steuerung">
+  <meta property="og:description" content="Cyclic, Collective, Pedale und Toe Brakes – kontaktlos, modular und vollständig Open Source.">
   <meta property="og:url" content="https://dezender.de/helicopter-controller/">
-  <meta property="og:site_name" content="135er Heli Control">
-
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="135er Heli Control">
-  <meta name="twitter:description" content="Built for rotary flight. Open helicopter controls for MSFS, X-Plane and more.">
-
+  <title>135er Heli Control · Built for rotary flight</title>
+  <link rel="icon" type="image/svg+xml" href="assets/brand-mark.svg">
+  <link rel="stylesheet" href="styles.css?v=4.0.0">
   <style>
-    :root{
-      --bg:#06080c;--bg2:#090d13;--surface:#0c1118;--surface2:#101720;
-      --text:#f5f7fb;--muted:#98a5b4;--muted2:#c2cbd5;--line:#202a36;
-      --cyan:#79e0ff;--mint:#7cf2b3;--amber:#ffbf77;
-      --shadow:0 30px 90px rgba(0,0,0,.38);
-      --radius:20px
-    }
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{
-      margin:0;color:var(--text);
-      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-      background:
-        radial-gradient(circle at 82% -10%,rgba(121,224,255,.11),transparent 31%),
-        radial-gradient(circle at 12% 15%,rgba(124,242,179,.06),transparent 26%),
-        var(--bg);
-    }
-    a{color:inherit;text-decoration:none}
-    img{max-width:100%;display:block}
-    .wrap{width:min(1200px,calc(100% - 40px));margin:auto}
-    .nav{
-      position:sticky;top:0;z-index:50;
-      background:rgba(6,8,12,.78);backdrop-filter:blur(18px);
-      border-bottom:1px solid rgba(255,255,255,.055)
-    }
-    .navin{height:72px;display:flex;align-items:center;justify-content:space-between;gap:26px}
-    .brand{display:flex;align-items:center;gap:11px;font-weight:820;letter-spacing:.015em}
-    .brand img{width:36px;height:36px;border-radius:10px}
-    .links{display:flex;align-items:center;gap:26px;color:#c7d0da;font-size:.93rem}
-    .links a:hover{color:white}
-    .navcta{padding:10px 14px;border:1px solid var(--line);border-radius:10px;background:#0c121a;font-weight:700}
-    .hero{
-      min-height:calc(100vh - 72px);
-      display:grid;grid-template-columns:1.06fr .94fr;gap:58px;align-items:center;
-      padding:74px 0 82px
-    }
-    .eyebrow,.kicker{font-size:.76rem;letter-spacing:.17em;text-transform:uppercase;font-weight:850}
-    .eyebrow{color:var(--cyan)}
-    .kicker{color:var(--mint)}
-    h1{
-      font-size:clamp(3.25rem,7vw,7.2rem);line-height:.89;letter-spacing:-.058em;
-      margin:.52rem 0 1.35rem;max-width:780px
-    }
-    h2{font-size:clamp(2.25rem,4.4vw,4.6rem);line-height:1;letter-spacing:-.047em;margin:.55rem 0 0}
-    h3{letter-spacing:-.02em}
-    .lead{font-size:1.17rem;line-height:1.78;color:#bdc7d3;max-width:730px}
-    .heroactions{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
-    .btn{
-      display:inline-flex;align-items:center;justify-content:center;
-      padding:13px 18px;border-radius:12px;border:1px solid var(--line);
-      background:#0f151d;font-weight:780;transition:.18s ease
-    }
-    .btn:hover{transform:translateY(-1px);border-color:#354456}
-    .btn.primary{border:0;color:#041015;background:linear-gradient(135deg,var(--cyan),#b7f5ff)}
-    .btn.ghost{background:transparent}
-    .trustline{display:flex;gap:18px;flex-wrap:wrap;margin-top:28px;color:#8e9bab;font-size:.88rem}
-    .trustline span:before{content:"✓";color:var(--mint);margin-right:7px}
-
-    .productstage{
-      position:relative;min-height:560px;border-radius:30px;overflow:hidden;
-      border:1px solid rgba(255,255,255,.07);
-      background:
-        linear-gradient(150deg,rgba(255,255,255,.035),rgba(255,255,255,.008)),
-        radial-gradient(circle at 48% 35%,rgba(121,224,255,.15),transparent 34%),
-        #080c12;
-      box-shadow:var(--shadow)
-    }
-    .orbit,.orbit2{
-      position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
-      border:1px solid rgba(121,224,255,.12);border-radius:50%
-    }
-    .orbit{width:330px;height:330px}.orbit2{width:470px;height:470px;border-color:rgba(124,242,179,.07)}
-    .productstage:before{
-      content:"ROTARY FLIGHT CONTROL";position:absolute;left:28px;bottom:24px;
-      color:#667485;font-size:.68rem;letter-spacing:.22em;font-weight:800
-    }
-    .cyclic,.collective,.pedals{
-      position:absolute;background:linear-gradient(180deg,#1b2531,#0d131b);
-      border:1px solid #2a3745;box-shadow:0 22px 48px rgba(0,0,0,.38)
-    }
-    .cyclic{left:45%;bottom:75px;width:92px;height:250px;border-radius:18px 18px 26px 26px}
-    .cyclic:before{content:"";position:absolute;left:34px;top:-165px;width:23px;height:182px;border-radius:10px;background:linear-gradient(90deg,#535e69,#c4ccd3,#59636e)}
-    .cyclic:after{content:"";position:absolute;left:16px;top:-218px;width:62px;height:68px;border-radius:23px 23px 17px 17px;background:#17202a;border:1px solid #303d4c}
-    .collective{left:7%;bottom:105px;width:124px;height:170px;border-radius:18px}
-    .collective:before{content:"";position:absolute;width:195px;height:24px;background:linear-gradient(90deg,#55616d,#c0c8d0,#616c78);right:-170px;top:38px;transform:rotate(-18deg);transform-origin:left center;border-radius:11px}
-    .collective:after{content:"";position:absolute;width:100px;height:40px;background:#17202a;border:1px solid #303d4c;right:-216px;top:-1px;transform:rotate(-18deg);border-radius:17px}
-    .pedals{right:4%;bottom:68px;width:226px;height:70px;border-radius:22px}
-    .pedals:before,.pedals:after{content:"";position:absolute;width:84px;height:135px;background:#141c25;border:1px solid #303d4c;border-radius:18px;top:-54px}
-    .pedals:before{left:-18px;transform:rotate(-12deg)}.pedals:after{right:-18px;transform:rotate(12deg)}
-    .stagebadge{position:absolute;padding:8px 10px;border-radius:9px;background:rgba(5,9,14,.82);border:1px solid var(--line);font-size:.77rem;color:#c8d3df}
-    .b1{left:24px;top:24px}.b2{right:24px;top:24px}.b3{right:24px;bottom:24px}
-
-    section{padding:98px 0;border-top:1px solid rgba(255,255,255,.055)}
-    .sectionhead{display:grid;grid-template-columns:.83fr 1.17fr;gap:66px;align-items:start;margin-bottom:46px}
-    .sectioncopy{font-size:1.07rem;line-height:1.82;color:#aeb9c6;max-width:650px}
-    .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-    .grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
-    .card{
-      padding:27px;border-radius:var(--radius);
-      background:linear-gradient(180deg,var(--surface2),var(--surface));
-      border:1px solid var(--line)
-    }
-    .card .num{font-size:.72rem;color:var(--cyan);font-weight:850;letter-spacing:.15em;text-transform:uppercase}
-    .card h3{font-size:1.4rem;margin:.55rem 0 .65rem}
-    .card p{margin:0;color:#9eacbb;line-height:1.68}
-    .specgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:18px;overflow:hidden}
-    .spec{background:#0a0f15;padding:29px 23px}
-    .spec b{display:block;font-size:1.75rem;margin-bottom:5px;letter-spacing:-.035em}
-    .spec span{color:var(--muted);font-size:.92rem}
-    .featurelist{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:18px}
-    .feature{
-      padding:18px;border:1px solid var(--line);border-radius:14px;background:#0a0f15;color:#cbd4de
-    }
-    .feature b{display:block;color:white;margin-bottom:5px}
-    .feature span{color:#8f9dac;font-size:.94rem;line-height:1.5}
-    .platforms{display:flex;flex-wrap:wrap;gap:11px;margin-top:24px}
-    .chip{padding:9px 12px;border:1px solid var(--line);background:#0a0f15;border-radius:999px;color:#cbd4df}
-
-    .why{
-      display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:stretch
-    }
-    .whybig{padding:34px;border-radius:22px;border:1px solid var(--line);background:#0a0f15}
-    .whybig h3{font-size:2rem;margin:.4rem 0 1rem}
-    .whybig p{color:#9dacbc;line-height:1.78;margin:0}
-    .comparison{display:grid;gap:10px}
-    .compare{
-      display:grid;grid-template-columns:150px 1fr;gap:16px;padding:15px 16px;
-      border:1px solid var(--line);border-radius:13px;background:#0b1118
-    }
-    .compare b{color:#f1f5f9}.compare span{color:#95a3b2;line-height:1.55}
-
-    .steps{counter-reset:s;display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-    .step{position:relative;padding:25px;border:1px solid var(--line);border-radius:18px;background:#0b1016}
-    .step:before{counter-increment:s;content:"0" counter(s);display:block;color:var(--cyan);font-weight:850;font-size:.74rem;letter-spacing:.14em;margin-bottom:18px}
-    .step b{display:block;margin-bottom:8px}.step span{color:#8f9dab;line-height:1.55;font-size:.94rem}
-
-    .faq{display:grid;gap:10px}
-    details{border:1px solid var(--line);border-radius:14px;background:#0a0f15;padding:0 18px}
-    summary{cursor:pointer;list-style:none;padding:19px 0;font-weight:760}
-    summary::-webkit-details-marker{display:none}
-    details p{margin:0 0 19px;color:#9eabba;line-height:1.7;max-width:900px}
-
-    .statusbar{
-      display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;
-      padding:22px 24px;border:1px solid var(--line);border-radius:16px;background:#0a0f15
-    }
-    .statusbar strong{font-size:1.05rem}.statusbar span{color:#8f9dac}
-    .dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--mint);box-shadow:0 0 15px rgba(124,242,179,.55);margin-right:9px}
-
-    .cta{
-      padding:72px;border-radius:28px;
-      background:radial-gradient(circle at 88% 12%,rgba(121,224,255,.14),transparent 29%),linear-gradient(135deg,#101720,#0a0f15);
-      border:1px solid var(--line);box-shadow:var(--shadow)
-    }
-    .cta h2{max-width:800px}.cta p{max-width:770px;color:#aeb9c6;font-size:1.08rem;line-height:1.75}
-
-    footer{padding:38px 0 55px;color:#788696;font-size:.88rem}
-    .footin{display:flex;justify-content:space-between;gap:22px;flex-wrap:wrap}
-    .footlinks{display:flex;gap:16px;flex-wrap:wrap}
-
-    @media(max-width:1000px){
-      .hero{grid-template-columns:1fr}.productstage{min-height:490px}
-      .sectionhead,.why{grid-template-columns:1fr}
-      .grid3{grid-template-columns:1fr 1fr}.specgrid{grid-template-columns:1fr 1fr}.steps{grid-template-columns:1fr 1fr}
-      .links{display:none}
-    }
-    @media(max-width:650px){
-      .wrap{width:min(100% - 28px,1200px)}
-      .hero{padding-top:48px}.productstage{min-height:405px}
-      .grid3,.grid2,.specgrid,.featurelist,.steps{grid-template-columns:1fr}
-      .cta{padding:38px 25px}
-      .collective{transform:scale(.76);transform-origin:left bottom}
-      .pedals{transform:scale(.73);transform-origin:right bottom}
-      .cyclic{transform:scale(.80);transform-origin:center bottom}
-      .compare{grid-template-columns:1fr}
-      h1{font-size:clamp(3rem,15vw,5rem)}
-    }
+    /* Heli-specific components layered on top of the Grow Central design system */
+    .heli-stage{position:relative;min-height:440px}
+    .heli-frame{position:absolute;inset:34px 28px 44px;border:1px solid rgba(103,214,255,.18);border-radius:26px;background:
+      radial-gradient(circle at 50% 40%,rgba(72,198,255,.12),transparent 34%),
+      linear-gradient(160deg,rgba(255,255,255,.025),rgba(255,255,255,.006));overflow:hidden}
+    .heli-frame:before{content:"135er HELI CONTROL / SYSTEM OVERVIEW";position:absolute;left:18px;top:15px;font-size:10px;letter-spacing:.18em;color:#67808c}
+    .heli-orbit{position:absolute;border:1px solid rgba(76,221,255,.13);border-radius:50%;left:52%;top:54%;transform:translate(-50%,-50%)}
+    .heli-orbit.a{width:240px;height:240px}.heli-orbit.b{width:360px;height:360px;border-color:rgba(160,255,111,.08)}
+    .cyclic,.collective,.pedals{position:absolute;background:linear-gradient(180deg,#162129,#0a1116);border:1px solid #263942;box-shadow:0 22px 48px rgba(0,0,0,.42)}
+    .cyclic{left:47%;bottom:55px;width:74px;height:178px;border-radius:14px 14px 20px 20px}
+    .cyclic:before{content:"";position:absolute;left:27px;top:-118px;width:19px;height:132px;border-radius:8px;background:linear-gradient(90deg,#455761,#a8b9c0,#4b5b64)}
+    .cyclic:after{content:"";position:absolute;left:10px;top:-158px;width:53px;height:51px;border-radius:19px 19px 13px 13px;background:#121c22;border:1px solid #2b414a}
+    .collective{left:8%;bottom:76px;width:100px;height:122px;border-radius:15px}
+    .collective:before{content:"";position:absolute;width:155px;height:20px;background:linear-gradient(90deg,#495963,#aebcc2,#52616a);right:-132px;top:27px;transform:rotate(-18deg);transform-origin:left center;border-radius:9px}
+    .collective:after{content:"";position:absolute;width:82px;height:33px;background:#121c22;border:1px solid #2b414a;right:-171px;top:-3px;transform:rotate(-18deg);border-radius:13px}
+    .pedals{right:6%;bottom:52px;width:178px;height:54px;border-radius:18px}
+    .pedals:before,.pedals:after{content:"";position:absolute;width:67px;height:108px;background:#10191f;border:1px solid #2b414a;border-radius:15px;top:-43px}
+    .pedals:before{left:-14px;transform:rotate(-12deg)}.pedals:after{right:-14px;transform:rotate(12deg)}
+    .heli-label{position:absolute;padding:8px 10px;border:1px solid rgba(105,220,255,.18);background:rgba(3,10,13,.9);border-radius:10px;font-size:10px;letter-spacing:.11em;color:#8ea8b3}
+    .hl-a{left:20px;bottom:18px}.hl-b{right:20px;top:48px}.hl-c{right:20px;bottom:18px}
+    .axis-strip{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.06);border-radius:18px;overflow:hidden;margin-top:24px}
+    .axis-strip div{background:#071014;padding:16px 12px;text-align:center}.axis-strip small{display:block;color:#54717c;font-size:9px;letter-spacing:.13em}.axis-strip strong{display:block;margin-top:4px;font-size:12px;color:#d9eef5}
+    .system-diagram{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:center;gap:18px;padding:28px;border:1px solid rgba(255,255,255,.07);background:#061014;border-radius:22px}
+    .system-diagram .node{padding:20px;border:1px solid rgba(92,213,255,.13);border-radius:16px;background:#08161b;text-align:center}.system-diagram .node small{display:block;color:#597681;font-size:9px;letter-spacing:.14em}.system-diagram .node strong{display:block;margin-top:6px}.system-diagram .arrow{color:#61d9ff;font-size:24px}
+    @media(max-width:780px){.axis-strip{grid-template-columns:repeat(2,1fr)}.system-diagram{grid-template-columns:1fr}.system-diagram .arrow{transform:rotate(90deg);text-align:center}.heli-stage{min-height:390px}.heli-frame{inset:24px 6px 32px}.collective{transform:scale(.8);transform-origin:left bottom}.pedals{transform:scale(.76);transform-origin:right bottom}.cyclic{transform:scale(.82);transform-origin:center bottom}}
   </style>
 </head>
-
 <body>
-<header class="nav">
-  <div class="wrap navin">
-    <a class="brand" href="#top">
-      <img src="assets/brand-mark.svg" alt="">
-      <span>135er Heli Control</span>
-    </a>
-    <nav class="links" aria-label="Hauptnavigation">
-      <a href="#system">System</a>
-      <a href="#technik">Technik</a>
-      <a href="#build">Build</a>
-      <a href="#faq">FAQ</a>
-    </nav>
-    <a class="navcta" href="https://github.com/jygnw29kms-bit/135er-Universal-Helicopter-Controller">Open Source</a>
-  </div>
-</header>
+  <a class="skip-link" href="#main">Zum Inhalt springen</a>
+  <div class="noise" aria-hidden="true"></div>
 
-<main id="top">
-  <div class="wrap hero">
-    <div>
-      <div class="eyebrow">Built for rotary flight.</div>
-      <h1>Fliegen wie ein Hubschrauber.</h1>
-      <p class="lead">135er Heli Control ist ein vollständiges Helicopter-Control-System für Simulatorpiloten — mit Cyclic, Collective, Anti-Torque-Pedalen und unabhängigen Toe Brakes. Kontaktlos gemessen, modular aufgebaut und offen entwickelt.</p>
-      <div class="heroactions">
-        <a class="btn primary" href="#system">System entdecken</a>
-        <a class="btn ghost" href="#build">Build starten</a>
-      </div>
-      <div class="trustline">
-        <span>7 Hall-Achsen</span>
-        <span>Standard USB HID</span>
-        <span>MSFS & X-Plane</span>
-        <span>Open Source</span>
-      </div>
+  <header class="site-header">
+    <div class="wrap nav-wrap">
+      <a class="brand" href="#top" aria-label="135er Heli Control">
+        <img src="assets/heli-control-lockup.svg" alt="135er Heli Control">
+      </a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Navigation öffnen" aria-expanded="false">☰</button>
+      <nav class="site-nav" id="siteNav" aria-label="Hauptnavigation">
+        <a href="#produkt">Produkt</a>
+        <a href="#vorteile">Vorteile</a>
+        <a href="#funktionen">Funktionen</a>
+        <a href="#module">Module</a>
+        <a href="#hardware">Hardware</a>
+        <a href="#status">Status</a>
+        <a class="nav-cta" href="#faq">FAQ</a>
+      </nav>
     </div>
+  </header>
 
-    <div class="productstage" aria-label="Cyclic, Collective und Pedal-System">
-      <div class="orbit"></div><div class="orbit2"></div>
-      <div class="collective"></div><div class="cyclic"></div><div class="pedals"></div>
-      <div class="stagebadge b1">Contactless Hall Sensing</div>
-      <div class="stagebadge b2">RP2350 Control Core</div>
-      <div class="stagebadge b3">Full Helicopter Layout</div>
-    </div>
-  </div>
+  <main id="main">
+    <section class="hero" id="top">
+      <div class="hero-grid wrap">
+        <div class="hero-copy">
+          <div class="eyebrow"><span class="dot"></span> ROTARY-FLIGHT CONTROL SYSTEM</div>
+          <h1>Eine Plattform.<br><span>Dein ganzer Helicopter.</span></h1>
+          <p class="lead">135er Heli Control vereint Cyclic, Collective, Anti-Torque-Pedale und unabhängige Toe Brakes in einem modularen Steuerungssystem. Kontaktlose Hall-Sensorik, Standard USB HID und offene Hardware machen daraus eine Basis für den eigenen Helicopter-Simulator.</p>
+          <div class="hero-actions">
+            <a class="btn primary" href="#produkt">Heli Control entdecken</a>
+            <a class="btn ghost" href="#status">Entwicklungsstatus</a>
+          </div>
+          <div class="trust-row" aria-label="Produktmerkmale">
+            <span>7 HALL-ACHSEN</span>
+            <span>USB HID</span>
+            <span>MSFS + X-PLANE</span>
+            <span>OPEN SOURCE</span>
+          </div>
+        </div>
 
-  <section id="system">
-    <div class="wrap">
-      <div class="sectionhead">
+        <div class="hero-visual heli-stage">
+          <div class="status-orbit orbit-a"></div>
+          <div class="status-orbit orbit-b"></div>
+          <div class="heli-frame">
+            <div class="heli-orbit a"></div>
+            <div class="heli-orbit b"></div>
+            <div class="collective"></div>
+            <div class="cyclic"></div>
+            <div class="pedals"></div>
+            <div class="heli-label hl-a">COLLECTIVE / THROTTLE</div>
+            <div class="heli-label hl-b">CYCLIC / PITCH + ROLL</div>
+            <div class="heli-label hl-c">PEDALS / TOE BRAKES</div>
+          </div>
+          <div class="floating-card fc-one">
+            <small>STEUERUNG</small>
+            <strong>7 KONTAKTLOSE ACHSEN</strong>
+            <span>Hall Sensor · MCP3208 · RP2350</span>
+          </div>
+          <div class="floating-card fc-two">
+            <small>SCHNITTSTELLE</small>
+            <strong>STANDARD USB HID</strong>
+            <span>MSFS · X-Plane · weitere Simulatoren</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="signal-bar" aria-label="Systemüberblick">
+      <div class="wrap signal-grid">
+        <div><small>CYCLIC</small><strong>Pitch + Roll</strong></div>
+        <div><small>COLLECTIVE</small><strong>Pitch + Throttle</strong></div>
+        <div><small>PEDALS</small><strong>Yaw + Toe Brakes</strong></div>
+        <div><small>FIRMWARE</small><strong>Open Source</strong></div>
+      </div>
+    </section>
+
+    <section class="section intro" id="produkt">
+      <div class="wrap split-head">
         <div>
-          <div class="kicker">Das System</div>
-          <h2>Nicht irgendein Joystick.</h2>
+          <div class="eyebrow">DAS PRODUKT</div>
+          <h2>Weniger Kompromisse. Mehr Helicopter.</h2>
         </div>
-        <div class="sectioncopy">
-          Ein Hubschrauber wird anders geflogen als ein Flächenflugzeug. Deshalb ist 135er Heli Control von Anfang an um die echten Bedienprinzipien eines Helicopters aufgebaut — mit getrennten Steuerwegen für Cyclic, Collective, Pedale und Bremsen.
-        </div>
+        <p>Ein Standard-Joystick kann Achsen simulieren. Heli Control bildet die helicoptertypischen Bedienelemente als eigene mechanische Baugruppen ab. So entstehen getrennte, nachvollziehbare Steuerwege statt einer universellen Desktop-Lösung.</p>
       </div>
 
-      <div class="grid3">
-        <article class="card">
-          <div class="num">01 · Cyclic</div>
-          <h3>Pitch & Roll</h3>
-          <p>Doppelgimbal, Stahlachsen und Lager bilden die mechanische Basis. Zwei kontaktlose Hall-Achsen erfassen feinste Pitch- und Rollbewegungen.</p>
+      <div class="value-grid wrap" id="vorteile">
+        <article class="value-card featured">
+          <div class="icon">⌁</div>
+          <h3>Helicopter First</h3>
+          <p>Cyclic, Collective, Pedale und Toe Brakes werden von Anfang an als zusammengehöriges Rotary-Control-System gedacht.</p>
+          <span>ROTARY CONTROL</span>
         </article>
-        <article class="card">
-          <div class="num">02 · Collective</div>
-          <h3>Collective & Throttle</h3>
-          <p>Gesamtpitch und Twist-Throttle in einer helicoptertypischen Baugruppe. Einstellbare Reibung sorgt dafür, dass der Hebel dort bleibt, wo du ihn setzt.</p>
+        <article class="value-card">
+          <div class="icon">◈</div>
+          <h3>Kontaktlos</h3>
+          <p>Alle sieben analogen Achsen werden magnetisch erfasst. Die Messung arbeitet ohne mechanischen Potentiometer-Schleifkontakt.</p>
+          <span>HALL SENSORIK</span>
         </article>
-        <article class="card">
-          <div class="num">03 · Pedals</div>
-          <h3>Yaw & Toe Brakes</h3>
-          <p>Anti-Torque-Steuerung plus unabhängige linke und rechte Toe Brake. Drei getrennte analoge Achsen für Bodenmanöver und präzise Yaw-Kontrolle.</p>
+        <article class="value-card">
+          <div class="icon">◎</div>
+          <h3>Modular</h3>
+          <p>Sensorhalter, Griffe, Reibungseinheit, Toe Brakes und Elektronik bleiben als einzelne Baugruppen wartbar und austauschbar.</p>
+          <span>SERVICEFREUNDLICH</span>
+        </article>
+        <article class="value-card">
+          <div class="icon">⚙</div>
+          <h3>Offen entwickelt</h3>
+          <p>CAD, Firmware und Dokumentation sind offen. Das System kann an Cockpit, Sitzposition und persönliche Anforderungen angepasst werden.</p>
+          <span>OPEN SOURCE</span>
         </article>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section>
-    <div class="wrap">
-      <div class="sectionhead">
+    <section class="section dark-section" id="funktionen">
+      <div class="wrap">
+        <div class="section-title">
+          <div>
+            <div class="eyebrow">FUNKTIONEN</div>
+            <h2>Vom Rohsignal bis zum Simulator.</h2>
+          </div>
+          <p>Der Fokus liegt auf stabilen Achsen, sauberer Kalibrierung und einer Architektur, die während Aufbau und Betrieb nachvollziehbar bleibt.</p>
+        </div>
+
+        <div class="feature-grid">
+          <article>
+            <div class="num">01</div>
+            <h3>7 analoge Achsen</h3>
+            <p>Roll, Pitch, Collective, Throttle, Yaw sowie linke und rechte Toe Brake werden getrennt erfasst.</p>
+            <span class="tag cyan">AXES</span>
+          </article>
+          <article>
+            <div class="num">02</div>
+            <h3>Persistente Kalibrierung</h3>
+            <p>Min, Center und Max sowie Filter, Deadzone, Expo und Invertierung bleiben nach dem Ausschalten erhalten.</p>
+            <span class="tag cyan">CALIBRATION</span>
+          </article>
+          <article>
+            <div class="num">03</div>
+            <h3>Buttons & Hat</h3>
+            <p>Die Firmware reserviert 32 HID-Buttons und einen Hat; direkte Eingänge für erste Griff- und Bedienfunktionen sind integriert.</p>
+            <span class="tag lime">INPUT</span>
+          </article>
+          <article>
+            <div class="num">04</div>
+            <h3>USB-Diagnose</h3>
+            <p>Eine CDC-Konsole liefert Rohwerte, Achsenstatus und Timing-Diagnose für Aufbau und Fehlersuche.</p>
+            <span class="tag lime">DIAGNOSE</span>
+          </article>
+          <article>
+            <div class="num">05</div>
+            <h3>Standard USB HID</h3>
+            <p>Das System meldet sich als normaler Game-Controller und bleibt damit unabhängig von einer proprietären Simulator-App.</p>
+            <span class="tag amber">USB</span>
+          </article>
+          <article>
+            <div class="num">06</div>
+            <h3>FDM-first</h3>
+            <p>Gedruckte Strukturteile treffen auf Stahlachsen und Lager. Kunststoff wird dort eingesetzt, wo FDM technisch sinnvoll ist.</p>
+            <span class="tag cyan">HARDWARE</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section integrations-section" id="module">
+      <div class="wrap">
+        <div class="split-head">
+          <div>
+            <div class="eyebrow">CONTROL MODULES</div>
+            <h2>Vier Funktionen. Ein gemeinsames System.</h2>
+          </div>
+          <p>Jede Baugruppe bleibt eigenständig wartbar, folgt aber derselben Sensor-, Elektronik- und Firmwarearchitektur.</p>
+        </div>
+
+        <div class="integration-grid">
+          <article class="integration-card">
+            <div class="integration-head"><div class="logo-token">CYC</div><span class="state local">2 AXES</span></div>
+            <h3>Cyclic</h3>
+            <p>Pitch und Roll über einen gelagerten Doppelgimbal mit Stahlachsen und zwei getrennten Hall-Sensoren.</p>
+          </article>
+          <article class="integration-card">
+            <div class="integration-head"><div class="logo-token">COL</div><span class="state hybrid">2 AXES</span></div>
+            <h3>Collective</h3>
+            <p>Collective-Pitch plus Twist-Throttle mit eigener Reibungseinheit und servicefreundlichem Griffaufbau.</p>
+          </article>
+          <article class="integration-card">
+            <div class="integration-head"><div class="logo-token">PED</div><span class="state local">1 AXIS</span></div>
+            <h3>Anti-Torque Pedals</h3>
+            <p>Eigenständige Yaw-Achse mit zentraler Mechanik und kontaktloser Positionserfassung.</p>
+          </article>
+          <article class="integration-card">
+            <div class="integration-head"><div class="logo-token">BRK</div><span class="state guarded">2 AXES</span></div>
+            <h3>Toe Brakes</h3>
+            <p>Linke und rechte Bremse werden unabhängig erfasst und bleiben mechanisch von der Yaw-Bewegung getrennt.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section dark-section" id="hardware">
+      <div class="wrap">
+        <div class="section-title">
+          <div>
+            <div class="eyebrow">CONTROL CORE</div>
+            <h2>Eine klare Signalkette.</h2>
+          </div>
+          <p>Die V1.1-Architektur trennt Sensorik, A/D-Wandlung, Verarbeitung und USB-Ausgabe in nachvollziehbare Ebenen.</p>
+        </div>
+
+        <div class="system-diagram">
+          <div class="node"><small>SENSORIK</small><strong>7 × AS5600 Analog OUT</strong></div>
+          <div class="arrow">→</div>
+          <div class="node"><small>ADC</small><strong>MCP3208 · SPI</strong></div>
+          <div class="arrow">→</div>
+          <div class="node"><small>CONTROL</small><strong>RP2350 / Pico 2 · USB HID</strong></div>
+        </div>
+
+        <div class="axis-strip">
+          <div><small>AXIS 01</small><strong>ROLL</strong></div>
+          <div><small>AXIS 02</small><strong>PITCH</strong></div>
+          <div><small>AXIS 03</small><strong>COLLECTIVE</strong></div>
+          <div><small>AXIS 04</small><strong>THROTTLE</strong></div>
+          <div><small>AXIS 05</small><strong>YAW</strong></div>
+          <div><small>AXIS 06</small><strong>BRAKE L</strong></div>
+          <div><small>AXIS 07</small><strong>BRAKE R</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section intro" id="status">
+      <div class="wrap split-head">
         <div>
-          <div class="kicker">Warum helicopter-specific?</div>
-          <h2>Weil Rotary Flight eigene Regeln hat.</h2>
+          <div class="eyebrow">ENTWICKLUNGSSTATUS</div>
+          <h2>Offen entwickelt. Klar validiert.</h2>
         </div>
-        <div class="sectioncopy">
-          Ein Standard-HOTAS kann Helicopter-Achsen abbilden. Er fühlt sich aber nicht wie ein Helicopter an. Die Geometrie, Wege und Bedienlogik von 135er Heli Control sind genau auf diese Unterschiede ausgelegt.
-        </div>
+        <p>V1.1 ist aktuell ein Engineering Build und RC2-Kandidat. Firmware und CAD werden automatisiert geprüft. Die Bezeichnung VALIDATED folgt erst nach realem Druck, Montage, Kalibrierung und Simulator-Test.</p>
       </div>
 
-      <div class="why">
-        <div class="whybig">
-          <div class="eyebrow">Control philosophy</div>
-          <h3>Vier Bewegungen. Eine Maschine.</h3>
-          <p>Cyclic steuert die Scheibenneigung, Collective verändert den Gesamtauftrieb, Pedale kontrollieren das Drehmoment und Toe Brakes übernehmen die getrennte Radbremsung. Das System trennt diese Funktionen mechanisch und elektrisch sauber voneinander.</p>
+      <div class="value-grid wrap">
+        <article class="value-card featured">
+          <div class="icon">✓</div>
+          <h3>Firmware CI</h3>
+          <p>RP2350-Build und Host-Tests für die Achsmathematik laufen automatisiert.</p>
+          <span>PASS</span>
+        </article>
+        <article class="value-card">
+          <div class="icon">✓</div>
+          <h3>CAD CI</h3>
+          <p>Produktions- und Validierungsteile werden automatisiert mit OpenSCAD gerendert.</p>
+          <span>PASS</span>
+        </article>
+        <article class="value-card">
+          <div class="icon">○</div>
+          <h3>Physical Build</h3>
+          <p>Passungen, Mechanik und Sensorpositionen werden mit realen Drucken validiert.</p>
+          <span>PENDING</span>
+        </article>
+        <article class="value-card">
+          <div class="icon">○</div>
+          <h3>Flight Validation</h3>
+          <p>MSFS- und X-Plane-Flugtests folgen nach vollständiger Hardwaremontage.</p>
+          <span>PENDING</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="section dark-section" id="faq">
+      <div class="wrap">
+        <div class="section-title">
+          <div>
+            <div class="eyebrow">FAQ</div>
+            <h2>Die wichtigsten Fragen.</h2>
+          </div>
+          <p>Technisch klar beantwortet — ohne den Entwicklungsstand größer darzustellen, als er ist.</p>
         </div>
-        <div class="comparison">
-          <div class="compare"><b>Cyclic</b><span>Feine zweiachsige Eingaben statt kurzer Desktop-Joystick-Wege.</span></div>
-          <div class="compare"><b>Collective</b><span>Hebelbewegung mit einstellbarer Reibung statt Schubhebel-Logik.</span></div>
-          <div class="compare"><b>Pedale</b><span>Yaw als eigenständige Hauptachse mit realitätsnaher Fußsteuerung.</span></div>
-          <div class="compare"><b>Toe Brakes</b><span>Links und rechts getrennt — nicht als gemeinsame digitale Bremse.</span></div>
+
+        <div class="faq-list">
+          <details>
+            <summary>Ist 135er Heli Control bereits ein fertiges Kaufprodukt?</summary>
+            <p>Nein. Der aktuelle Stand ist ein offener Engineering Build und RC2-Kandidat. Die physische Gesamtvalidierung steht noch aus.</p>
+          </details>
+          <details>
+            <summary>Funktioniert das System mit MSFS und X-Plane?</summary>
+            <p>Die Firmware nutzt Standard USB HID. Die Achsen und Buttons lassen sich damit in HID-kompatiblen Simulatoren zuordnen.</p>
+          </details>
+          <details>
+            <summary>Warum Hall-Sensoren?</summary>
+            <p>Die Position wird magnetisch erfasst. Dadurch arbeitet die Messung kontaktlos und ohne klassischen Potentiometer-Schleifkontakt.</p>
+          </details>
+          <details>
+            <summary>Muss alles 3D-gedruckt werden?</summary>
+            <p>Nein. Hauptachsen bleiben aus Stahl, Präzisionsdrehpunkte werden gelagert. FDM übernimmt vor allem Struktur, Geometrie und modulare Gehäuseteile.</p>
+          </details>
+          <details>
+            <summary>Kann ich das System selbst verändern?</summary>
+            <p>Ja. CAD, Firmware und Dokumentation sind Open Source und für Anpassungen an Cockpit, Ergonomie und Bedienkonzept gedacht.</p>
+          </details>
         </div>
+
+        <div class="hero-actions" style="margin-top:30px">
+          <a class="btn primary" href="https://github.com/jygnw29kms-bit/135er-Universal-Helicopter-Controller">Open Source ansehen</a>
+          <a class="btn ghost" href="https://github.com/jygnw29kms-bit/135er-Universal-Helicopter-Controller/blob/main/docs/VALIDATION_CHECKLIST.md">Validation Checklist</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-grid">
+      <div>
+        <img class="footer-brand" src="assets/heli-control-lockup.svg" alt="135er Heli Control">
+        <p>Built for rotary flight. Offen entwickelt als vollständige Helicopter-Control-Plattform für Simulatorpiloten.</p>
+      </div>
+      <div>
+        <strong>PRODUKT</strong>
+        <a href="#produkt">Überblick</a>
+        <a href="#module">Module</a>
+        <a href="#hardware">Hardware</a>
+      </div>
+      <div>
+        <strong>PROJEKT</strong>
+        <a href="#status">Status</a>
+        <a href="https://github.com/jygnw29kms-bit/135er-Universal-Helicopter-Controller">GitHub</a>
+        <a href="https://github.com/jygnw29kms-bit/135er-Universal-Helicopter-Controller/blob/main/LICENSE">Lizenz</a>
       </div>
     </div>
-  </section>
+    <div class="wrap footer-bottom">135er Heli Control · Built for rotary flight.</div>
+  </footer>
 
-  <section id="technik">
-    <div class="wrap">
-      <div class="sectionhead">
-        <div>
-          <div class="kicker">Technik</div>
-          <h2>Kontaktlos. Präzise. Wartbar.</h2>
-        </div>
-        <div class="sectioncopy">
-          Die Steuerachsen werden magnetisch erfasst. Dadurch gibt es keine verschleißenden Potentiometer-Schleifer. Ein RP2350 verarbeitet die Messwerte und meldet das komplette System als Standard-USB-Game-Controller.
-        </div>
-      </div>
-
-      <div class="specgrid">
-        <div class="spec"><b>7</b><span>analoge Hall-Achsen</span></div>
-        <div class="spec"><b>RP2350</b><span>Raspberry Pi Pico 2</span></div>
-        <div class="spec"><b>USB HID</b><span>ohne proprietären Treiber</span></div>
-        <div class="spec"><b>1 ms</b><span>Report-Zielzyklus</span></div>
-      </div>
-
-      <div class="featurelist">
-        <div class="feature"><b>Persistente Kalibrierung</b><span>Min, Center und Max bleiben nach dem Ausschalten gespeichert.</span></div>
-        <div class="feature"><b>Filter & Deadzone</b><span>Achsen lassen sich an Mechanik, Sensorik und persönliche Präferenz anpassen.</span></div>
-        <div class="feature"><b>USB-Diagnose</b><span>Live-Rohwerte und Loop-Diagnose erleichtern Aufbau und Fehlersuche.</span></div>
-        <div class="feature"><b>Servicefreundliche Module</b><span>Sensorhalter, Griffe, Reibungseinheit und Elektronik sind separat austauschbar.</span></div>
-      </div>
-    </div>
-  </section>
-
-  <section id="plattformen">
-    <div class="wrap">
-      <div class="sectionhead">
-        <div>
-          <div class="kicker">Kompatibilität</div>
-          <h2>Einstecken. Zuordnen. Fliegen.</h2>
-        </div>
-        <div class="sectioncopy">
-          Das System nutzt Standard USB HID. Dadurch kann es wie ein normaler Game-Controller erkannt und direkt im Simulator gemappt werden — ohne Bindung an eine proprietäre Desktop-Software.
-        </div>
-      </div>
-
-      <div class="platforms">
-        <span class="chip">Microsoft Flight Simulator</span>
-        <span class="chip">X-Plane</span>
-        <span class="chip">Windows</span>
-        <span class="chip">Linux</span>
-        <span class="chip">macOS</span>
-        <span class="chip">weitere HID-kompatible Simulatoren</span>
-      </div>
-    </div>
-  </section>
-
-  <section id="build">
-    <div class="wrap">
-      <div class="sectionhead">
-        <div>
-          <div class="kicker">Open Build</div>
-          <h2>Gebaut für Menschen, die ihr Cockpit selbst bestimmen.</h2>
-        </div>
-        <div class="sectioncopy">
-          FDM-Druck reduziert die Hürde für individuelle Cockpits. Gleichzeitig bleiben belastete und präzisionskritische Bauteile bewusst aus Stahl oder in Lagern geführt. Gedruckt wird dort, wo Druck sinnvoll ist — nicht dort, wo Metall besser ist.
-        </div>
-      </div>
-
-      <div class="steps">
-        <div class="step"><b>Passungen validieren</b><span>Zuerst kleine Fit-Coupons statt direkt große Teile zu verschwenden.</span></div>
-        <div class="step"><b>Cyclic bauen</b><span>Gimbal, Sensoren und Griff als erste vollständige Kontrollbaugruppe.</span></div>
-        <div class="step"><b>Collective & Pedale</b><span>Danach Gesamtpitch, Throttle, Yaw und Toe Brakes ergänzen.</span></div>
-        <div class="step"><b>Kalibrieren & fliegen</b><span>USB-Diagnose nutzen, Achsen speichern und im Simulator zuordnen.</span></div>
-      </div>
-
-      <div class="heroactions" style="margin-top:26px">
-        <a class="btn primary" href="https://github.com/jygnw29kms-bit/135er-Universal-Helicopter-Controller">Open-Source-Dateien öffnen</a>
-        <a class="btn" href="https://github.com/jygnw29kms-bit/135er-Universal-Helicopter-Controller/blob/main/hardware/BOM_V1_RC1.md">BOM ansehen</a>
-        <a class="btn" href="https://github.com/jygnw29kms-bit/135er-Universal-Helicopter-Controller/blob/main/docs/PRINT_ORDER.md">Print Order</a>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <div class="wrap">
-      <div class="sectionhead">
-        <div>
-          <div class="kicker">Entwicklungsstatus</div>
-          <h2>Offen über den Stand.</h2>
-        </div>
-        <div class="sectioncopy">
-          Wir trennen automatisiert geprüfte Entwicklung klar von physischer Freigabe. CAD und Firmware können erfolgreich bauen — trotzdem muss echte Hardware gedruckt, montiert, vermessen und im Simulator getestet werden.
-        </div>
-      </div>
-
-      <div class="statusbar">
-        <strong><span class="dot"></span>V1.1 Engineering Build · RC2 Candidate</strong>
-        <span>Firmware CI: PASS · Host Tests: PASS · CAD CI: PASS</span>
-      </div>
-    </div>
-  </section>
-
-  <section id="faq">
-    <div class="wrap">
-      <div class="sectionhead">
-        <div>
-          <div class="kicker">FAQ</div>
-          <h2>Die wichtigsten Fragen.</h2>
-        </div>
-        <div class="sectioncopy">Kurz beantwortet — ohne Marketing-Nebel.</div>
-      </div>
-
-      <div class="faq">
-        <details>
-          <summary>Ist 135er Heli Control ein fertiges Kaufprodukt?</summary>
-          <p>Noch nicht. Der aktuelle Stand ist ein offener Engineering Build und RC2-Kandidat. Die Software- und CAD-Pipelines sind getestet, die vollständige physische Validierung steht noch aus.</p>
-        </details>
-        <details>
-          <summary>Funktioniert das System mit MSFS und X-Plane?</summary>
-          <p>Die Firmware meldet sich als Standard-USB-HID-Controller. Dadurch können die Achsen und Buttons in MSFS, X-Plane und anderen HID-kompatiblen Simulatoren zugeordnet werden.</p>
-        </details>
-        <details>
-          <summary>Warum Hall-Sensoren statt Potentiometer?</summary>
-          <p>Die Achse wird magnetisch und damit kontaktlos erfasst. Es gibt keinen mechanischen Schleifkontakt im Messprinzip, der sich wie bei klassischen Potentiometern abnutzt.</p>
-        </details>
-        <details>
-          <summary>Muss alles aus Kunststoff gedruckt werden?</summary>
-          <p>Nein. Der Ansatz ist bewusst hybrid: gedruckte Strukturteile, Stahl für Hauptachsen und Lager für präzise Drehpunkte. FDM wird nur dort eingesetzt, wo es technisch sinnvoll ist.</p>
-        </details>
-        <details>
-          <summary>Kann ich das System verändern?</summary>
-          <p>Ja. CAD, Firmware und Dokumentation liegen offen im Repository. Anpassungen an Geometrie, Griffen, Schaltern oder Simulatorprofilen sind ausdrücklich Teil des Open-Source-Ansatzes.</p>
-        </details>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <div class="wrap">
-      <div class="cta">
-        <div class="eyebrow">135er Heli Control</div>
-        <h2>Full helicopter control. Open by design.</h2>
-        <p>Für Sim-Piloten, die mehr wollen als einen generischen Joystick: ein vollständiges, helicopter-spezifisches Steuerungssystem mit offener Hardware- und Firmwarebasis.</p>
-        <div class="heroactions">
-          <a class="btn primary" href="https://github.com/jygnw29kms-bit/135er-Universal-Helicopter-Controller">System bauen</a>
-          <a class="btn" href="https://github.com/jygnw29kms-bit/135er-Universal-Helicopter-Controller/blob/main/docs/VALIDATION_CHECKLIST.md">Entwicklungsstatus</a>
-        </div>
-      </div>
-    </div>
-  </section>
-</main>
-
-<footer>
-  <div class="wrap footin">
-    <div>© 135er Heli Control · Built for rotary flight.</div>
-    <div class="footlinks">
-      <a href="https://github.com/jygnw29kms-bit/135er-Universal-Helicopter-Controller">GitHub</a>
-      <a href="https://github.com/jygnw29kms-bit/135er-Universal-Helicopter-Controller/blob/main/LICENSE">Lizenz</a>
-      <a href="#faq">FAQ</a>
-    </div>
-  </div>
-</footer>
+  <script>
+    const btn=document.getElementById('menuToggle');
+    const nav=document.getElementById('siteNav');
+    if(btn&&nav){
+      btn.addEventListener('click',()=>{const open=nav.classList.toggle('open');btn.setAttribute('aria-expanded',String(open));});
+      nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{nav.classList.remove('open');btn.setAttribute('aria-expanded','false');}));
+    }
+  </script>
 </body>
 </html>
