@@ -15,48 +15,56 @@ jobs:
     env:
       DEZENDER_HOST: ${{ secrets.DEZENDER_HOST }}
       DEZENDER_USER: ${{ secrets.DEZENDER_USER }}
-      DEZENDER_PORT: ${{ secrets.DEZENDER_PORT }}
-      DEZENDER_PATH: ${{ secrets.DEZENDER_PATH }}
       DEZENDER_PASSWORD: ${{ secrets.DEZENDER_PASSWORD }}
+      DEZENDER_FTP_PATH: ${{ secrets.DEZENDER_FTP_PATH }}
+      DEZENDER_SSH_USER: ${{ secrets.DEZENDER_SSH_USER }}
+      DEZENDER_SSH_PASSWORD: ${{ secrets.DEZENDER_SSH_PASSWORD }}
+      DEZENDER_SSH_PORT: ${{ secrets.DEZENDER_SSH_PORT }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Validate deploy secrets
+      - name: Validate secrets
         shell: bash
         run: |
           set -euo pipefail
           test -n "$DEZENDER_HOST"
           test -n "$DEZENDER_USER"
-          test -n "$DEZENDER_PORT"
-          test -n "$DEZENDER_PATH"
           test -n "$DEZENDER_PASSWORD"
+          test -n "$DEZENDER_FTP_PATH"
+          test -n "$DEZENDER_SSH_USER"
+          test -n "$DEZENDER_SSH_PASSWORD"
+          test -n "$DEZENDER_SSH_PORT"
 
-      - name: Install SSH password helper
+      - name: Install deploy tools
         shell: bash
         run: |
           sudo apt-get update
-          sudo apt-get install -y sshpass rsync
+          sudo apt-get install -y lftp sshpass
 
-      - name: Prepare host key
+      - name: Test SSH maintenance access
         shell: bash
         run: |
           set -euo pipefail
           mkdir -p "$HOME/.ssh"
           chmod 700 "$HOME/.ssh"
-          ssh-keyscan -p "$DEZENDER_PORT" -H "$DEZENDER_HOST" >> "$HOME/.ssh/known_hosts"
+          ssh-keyscan -p "$DEZENDER_SSH_PORT" -H "$DEZENDER_HOST" >> "$HOME/.ssh/known_hosts"
           chmod 600 "$HOME/.ssh/known_hosts"
+          export SSHPASS="$DEZENDER_SSH_PASSWORD"
+          sshpass -e ssh             -o PreferredAuthentications=password             -o PubkeyAuthentication=no             -p "$DEZENDER_SSH_PORT"             "$DEZENDER_SSH_USER@$DEZENDER_HOST"             "printf 'SSH_OK\n'"
 
-      - name: Test SSH and create target
+      - name: Deploy website over FTPS
         shell: bash
         run: |
           set -euo pipefail
-          SSHPASS="$DEZENDER_PASSWORD" sshpass -e             ssh -o PreferredAuthentications=password                 -o PubkeyAuthentication=no                 -p "$DEZENDER_PORT"                 "$DEZENDER_USER@$DEZENDER_HOST"                 "mkdir -p '$DEZENDER_PATH'"
-
-      - name: Deploy site
-        shell: bash
-        run: |
-          set -euo pipefail
-          export SSHPASS="$DEZENDER_PASSWORD"
-          sshpass -e rsync -az --delete             -e "ssh -o PreferredAuthentications=password -o PubkeyAuthentication=no -p $DEZENDER_PORT"             site/             "$DEZENDER_USER@$DEZENDER_HOST:$DEZENDER_PATH/"
+          lftp -u "$DEZENDER_USER","$DEZENDER_PASSWORD" "$DEZENDER_HOST" <<EOF
+          set ftp:ssl-force true
+          set ftp:ssl-protect-data true
+          set ssl:verify-certificate no
+          set net:max-retries 2
+          set net:timeout 20
+          mkdir -p "$DEZENDER_FTP_PATH"
+          mirror -R --delete --verbose site/ "$DEZENDER_FTP_PATH/"
+          bye
+          EOF
