@@ -76,5 +76,5 @@ jobs:
           echo "HTTP_STATUS=$code"
           test "$code" = "200"
           grep -q "135er Heli Control" /tmp/heli-site.html
-          grep -q "FLIGHT OPERATIONS SYSTEM" /tmp/heli-site.html
+          grep -q "Precision in Flight" /tmp/heli-site.html
           echo "PUBLIC_SITE_OK"
