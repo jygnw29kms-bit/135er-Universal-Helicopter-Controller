@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - "cad/**"
+      - "scripts/**"
       - ".github/workflows/build-cad.yml"
   workflow_dispatch:
 
@@ -13,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install OpenSCAD
-        run: sudo apt-get update && sudo apt-get install -y openscad zip
+        run: sudo apt-get update && sudo apt-get install -y openscad zip xvfb webp
       - name: Export production and validation STL files
         shell: bash
         run: |
@@ -37,7 +38,21 @@ jobs:
 
           cd build
           zip -r 135er-helicopter-controller-v1-stl.zip stl
+          cd ..
+
+      - name: Render STL preview images
+        shell: bash
+        run: |
+          set -euo pipefail
+          chmod +x scripts/render_stl_previews.sh
+          scripts/render_stl_previews.sh build/stl build/stl-previews build/stl-previews/manifest.json
+          (cd build && zip -r 135er-helicopter-controller-v1-stl-previews.zip stl-previews)
       - uses: actions/upload-artifact@v4
         with:
           name: 135er-helicopter-controller-v1-stl
           path: build/135er-helicopter-controller-v1-stl.zip
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: 135er-helicopter-controller-v1-stl-previews
+          path: build/135er-helicopter-controller-v1-stl-previews.zip
