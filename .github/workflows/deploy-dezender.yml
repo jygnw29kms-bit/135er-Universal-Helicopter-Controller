@@ -138,12 +138,7 @@ jobs:
           test $(wc -c < /tmp/cyclic-base.stl) -gt 1024
           curl -L -f -sS -o /tmp/stl-manifest.json "https://dezender.de/helicopter-controller/assets/stl-previews/manifest.json"
           python3 -m json.tool /tmp/stl-manifest.json >/dev/null
-          preview=$(python3 - <<'PY'
-import json
-m=json.load(open('/tmp/stl-manifest.json'))
-print(m[0]['preview'] if m else '')
-PY
-)
+          preview=$(python3 -c "import json; m=json.load(open('/tmp/stl-manifest.json')); print(m[0]['preview'] if m else '')")
           test -n "$preview"
           curl -L -f -sS -o /tmp/stl-preview.webp "https://dezender.de/helicopter-controller/$preview"
           test $(wc -c < /tmp/stl-preview.webp) -gt 1024
