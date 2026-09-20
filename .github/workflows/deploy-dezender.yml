@@ -17,7 +17,7 @@ jobs:
       DEZENDER_USER: ${{ secrets.DEZENDER_USER }}
       DEZENDER_PORT: ${{ secrets.DEZENDER_PORT }}
       DEZENDER_PATH: ${{ secrets.DEZENDER_PATH }}
-      DEZENDER_SSH_KEY: ${{ secrets.DEZENDER_SSH_KEY }}
+      DEZENDER_PASSWORD: ${{ secrets.DEZENDER_PASSWORD }}
 
     steps:
       - name: Checkout
@@ -31,21 +31,20 @@ jobs:
           test -n "$DEZENDER_USER"
           test -n "$DEZENDER_PORT"
           test -n "$DEZENDER_PATH"
-          test -n "$DEZENDER_SSH_KEY"
+          test -n "$DEZENDER_PASSWORD"
 
-      - name: Prepare SSH
+      - name: Install SSH password helper
+        shell: bash
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y sshpass rsync
+
+      - name: Prepare host key
         shell: bash
         run: |
           set -euo pipefail
           mkdir -p "$HOME/.ssh"
           chmod 700 "$HOME/.ssh"
-          if printf '%s' "$DEZENDER_SSH_KEY" | grep -q '\\\\n'; then
-            printf '%b\n' "$DEZENDER_SSH_KEY" > "$HOME/.ssh/id_dezender"
-          else
-            printf '%s\n' "$DEZENDER_SSH_KEY" > "$HOME/.ssh/id_dezender"
-          fi
-          chmod 600 "$HOME/.ssh/id_dezender"
-          ssh-keygen -y -f "$HOME/.ssh/id_dezender" >/dev/null
           ssh-keyscan -p "$DEZENDER_PORT" -H "$DEZENDER_HOST" >> "$HOME/.ssh/known_hosts"
           chmod 600 "$HOME/.ssh/known_hosts"
 
@@ -53,10 +52,11 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          ssh -i "$HOME/.ssh/id_dezender"             -p "$DEZENDER_PORT"             "$DEZENDER_USER@$DEZENDER_HOST"             "mkdir -p '$DEZENDER_PATH'"
+          SSHPASS="$DEZENDER_PASSWORD" sshpass -e             ssh -o PreferredAuthentications=password                 -o PubkeyAuthentication=no                 -p "$DEZENDER_PORT"                 "$DEZENDER_USER@$DEZENDER_HOST"                 "mkdir -p '$DEZENDER_PATH'"
 
       - name: Deploy site
         shell: bash
         run: |
           set -euo pipefail
-          rsync -az --delete             -e "ssh -i $HOME/.ssh/id_dezender -p $DEZENDER_PORT"             site/             "$DEZENDER_USER@$DEZENDER_HOST:$DEZENDER_PATH/"
+          export SSHPASS="$DEZENDER_PASSWORD"
+          sshpass -e rsync -az --delete             -e "ssh -o PreferredAuthentications=password -o PubkeyAuthentication=no -p $DEZENDER_PORT"             site/             "$DEZENDER_USER@$DEZENDER_HOST:$DEZENDER_PATH/"
