@@ -16,7 +16,16 @@
 - Automated STL generation workflow
 - Automated firmware build workflow
 
-## Pending physical validation
-Do not call this production-validated until an actual printed build passes VALIDATION_CHECKLIST.md.
+## Automated validation
+- CAD GitHub Actions build: **PASS**
+- RP2350/Pico 2 firmware GitHub Actions build: **PASS**
+- 16/16 locally rendered STL meshes: **watertight/manifold**
+- Largest part: pedal base, 240 x 180 x 54 mm
+- All current production parts fit the 256 x 256 x 256 mm design envelope
 
-The CAD has been successfully rendered locally with OpenSCAD into STL files without parser/render failures. This validates source generation, not mechanical fit or load strength.
+## Pending physical validation
+V1 RC1 is a buildable design release candidate, not a production-validated hardware release.
+
+An actual printed assembly must still pass `VALIDATION_CHECKLIST.md`, including bearing/shaft fit, mechanical travel, sensor alignment, measured Hall calibration values and simulator tests.
+
+Only after those checks should the project be tagged **VALIDATED**.
