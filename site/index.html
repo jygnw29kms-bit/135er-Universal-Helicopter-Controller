@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>135er Universal Helicopter Controller</title>
+  <meta name="description" content="Open-Source Helicopter-Simulatorsteuerung mit Cyclic, Collective und Anti-Torque-Pedalen. FDM-printable, Hall-Sensor-basiert, RP2350/USB-HID.">
+  <style>
+    :root{--bg:#0d1117;--card:#161b22;--text:#e6edf3;--muted:#8b949e;--line:#30363d;--accent:#58a6ff}
+    *{box-sizing:border-box}body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:linear-gradient(180deg,#0d1117,#111827);color:var(--text)}
+    a{color:var(--accent);text-decoration:none}.wrap{max-width:1180px;margin:auto;padding:0 22px}.hero{padding:76px 0 48px}.eyebrow{color:var(--accent);text-transform:uppercase;letter-spacing:.14em;font-size:.8rem}
+    h1{font-size:clamp(2.5rem,7vw,5.8rem);line-height:.95;margin:.4rem 0 1.1rem;max-width:1000px}.lead{font-size:1.15rem;line-height:1.7;color:#c9d1d9;max-width:820px}
+    .actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}.btn{padding:12px 18px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--text)}.btn.primary{background:#238636;border-color:#238636}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;padding:26px 0 54px}.card{background:rgba(22,27,34,.9);border:1px solid var(--line);border-radius:16px;padding:22px}.card h3{margin-top:0}.muted{color:var(--muted)}
+    .status{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:24px 0}.pill{border:1px solid var(--line);border-radius:12px;padding:16px;background:#0f141a}.pill b{display:block;font-size:1.3rem}
+    section{padding:34px 0;border-top:1px solid var(--line)}footer{padding:34px 0 60px;color:var(--muted)}
+    code{background:#0b0f14;padding:.15em .4em;border-radius:6px}
+    @media(max-width:850px){.grid,.status{grid-template-columns:1fr}.hero{padding-top:48px}}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <div class="eyebrow">Open Source · V1 RC1</div>
+      <h1>135er Universal Helicopter Controller</h1>
+      <p class="lead">Modulares Helicopter-Steuersystem für MSFS und X-Plane: Cyclic, Collective und Anti-Torque-Pedale. FDM-first konstruiert, kontaktlose Hall-Sensorik, RP2350 und standardkonformes USB-HID.</p>
+      <div class="actions">
+        <a class="btn primary" href="https://github.com/jygnw29kms-bit/135er-Universal-Helicopter-Controller">GitHub öffnen</a>
+        <a class="btn" href="#status">Projektstatus</a>
+        <a class="btn" href="#baugruppen">Baugruppen</a>
+      </div>
+      <div id="status" class="status">
+        <div class="pill"><b>7</b><span class="muted">Hall-Achsen</span></div>
+        <div class="pill"><b>16</b><span class="muted">druckbare RC1-Teile</span></div>
+        <div class="pill"><b>RP2350</b><span class="muted">USB-HID Controller</span></div>
+        <div class="pill"><b>PASS</b><span class="muted">CAD + Firmware CI</span></div>
+      </div>
+    </section>
+
+    <section id="baugruppen">
+      <h2>Baugruppen</h2>
+      <div class="grid">
+        <article class="card"><h3>Cyclic</h3><p>Pitch + Roll, Doppelgimbal, Metallachsen, 608-2RS Lager, Hall-Winkelsensorik und optional leichte Zentrierung.</p></article>
+        <article class="card"><h3>Collective</h3><p>Collective-Achse plus Twist-Throttle, Metallpivot, FDM-Griff und kontaktlose Sensorik.</p></article>
+        <article class="card"><h3>Anti-Torque Pedals</h3><p>Yaw-Achse mit Hall-Sensorik, Metallwelle und optionalen Toe-Brake-Kanälen.</p></article>
+      </div>
+    </section>
+
+    <section>
+      <h2>Elektronik</h2>
+      <p class="lead">7× AS5600-basierte Hall-Sensoren im Analog-OUT-Modus → MCP3208 8-Kanal SPI-ADC → Raspberry Pi Pico 2 / RP2350 → USB-HID.</p>
+    </section>
+
+    <section>
+      <h2>Print First</h2>
+      <p class="lead">Vor den großen Teilen wird zuerst die Validation-Platte gedruckt. Sie prüft Lager-, Wellen-, Rohr-, Magnet- und Schraubenpassungen. Erst danach werden die finalen Toleranzen für Cyclic, Collective und Pedale eingefroren.</p>
+    </section>
+
+    <section>
+      <h2>Aktueller Stand</h2>
+      <p class="lead">V1 RC1 ist software- und CAD-seitig buildbar. GitHub Actions erzeugt STL-Artefakte und RP2350-Firmware. Physische Validierung erfolgt mit dem ersten realen Druck.</p>
+    </section>
+  </main>
+  <footer class="wrap">135er Universal Helicopter Controller · Projektseite auf dezender.de</footer>
+</body>
+</html>
