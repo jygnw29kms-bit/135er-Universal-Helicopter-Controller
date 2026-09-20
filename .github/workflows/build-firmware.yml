@@ -12,17 +12,29 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Host-test axis math
+        shell: bash
+        run: |
+          set -euo pipefail
+          gcc -std=c11 -Wall -Wextra -Werror             -Ifirmware/src             firmware/src/axis.c firmware/tests/test_axis.c             -o /tmp/heli-axis-tests
+          /tmp/heli-axis-tests
+
       - name: Install toolchain
         run: sudo apt-get update && sudo apt-get install -y cmake ninja-build gcc-arm-none-eabi libnewlib-arm-none-eabi
+
       - name: Fetch Pico SDK
         shell: bash
         run: |
           git clone --depth 1 --recurse-submodules https://github.com/raspberrypi/pico-sdk.git "$HOME/pico-sdk"
           echo "PICO_SDK_PATH=$HOME/pico-sdk" >> "$GITHUB_ENV"
+
       - name: Configure
         run: cmake -S firmware -B build -G Ninja -DPICO_BOARD=pico2
+
       - name: Build
         run: cmake --build build
+
       - uses: actions/upload-artifact@v4
         with:
           name: 135er-helicopter-controller-rp2350
