@@ -15,11 +15,12 @@ jobs:
       - name: Install toolchain
         run: sudo apt-get update && sudo apt-get install -y cmake ninja-build gcc-arm-none-eabi libnewlib-arm-none-eabi
       - name: Fetch Pico SDK
-        run: git clone --depth 1 --recurse-submodules https://github.com/raspberrypi/pico-sdk.git "$HOME/pico-sdk"
+        shell: bash
+        run: |
+          git clone --depth 1 --recurse-submodules https://github.com/raspberrypi/pico-sdk.git "$HOME/pico-sdk"
+          echo "PICO_SDK_PATH=$HOME/pico-sdk" >> "$GITHUB_ENV"
       - name: Configure
         run: cmake -S firmware -B build -G Ninja -DPICO_BOARD=pico2
-        env:
-          PICO_SDK_PATH: "$HOME/pico-sdk"
       - name: Build
         run: cmake --build build
       - uses: actions/upload-artifact@v4
