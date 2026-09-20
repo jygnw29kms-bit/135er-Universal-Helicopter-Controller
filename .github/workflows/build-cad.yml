@@ -18,8 +18,9 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p build/stl/cyclic build/stl/collective build/stl/pedals build/stl/validation
-          for module in cyclic collective pedals; do
+          mkdir -p build/stl/cyclic build/stl/collective build/stl/pedals build/stl/electronics build/stl/validation
+
+          for module in cyclic collective pedals electronics; do
             for src in cad/$module/src/*.scad; do
               name=$(basename "$src" .scad)
               case "$name" in
