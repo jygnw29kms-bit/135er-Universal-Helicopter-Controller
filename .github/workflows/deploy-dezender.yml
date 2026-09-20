@@ -30,9 +30,6 @@ jobs:
         run: |
           set -euo pipefail
           test -n "$DEZENDER_HOST"
-          test -n "$DEZENDER_USER"
-          test -n "$DEZENDER_PASSWORD"
-          test -n "$DEZENDER_FTP_PATH"
           test -n "$DEZENDER_SSH_USER"
           test -n "$DEZENDER_SSH_PASSWORD"
           test -n "$DEZENDER_SSH_PORT"
@@ -41,10 +38,9 @@ jobs:
         shell: bash
         run: |
           sudo apt-get update
-          sudo apt-get install -y lftp sshpass
+          sudo apt-get install -y sshpass
 
-      - name: Test SSH maintenance access
-        continue-on-error: true
+      - name: Prepare SSH
         shell: bash
         run: |
           set -euo pipefail
@@ -52,36 +48,25 @@ jobs:
           chmod 700 "$HOME/.ssh"
           ssh-keyscan -p "$DEZENDER_SSH_PORT" -H "$DEZENDER_HOST" >> "$HOME/.ssh/known_hosts"
           chmod 600 "$HOME/.ssh/known_hosts"
-          export SSHPASS="$DEZENDER_SSH_PASSWORD"
-          sshpass -e ssh             -o PreferredAuthentications=password             -o PubkeyAuthentication=no             -p "$DEZENDER_SSH_PORT"             "$DEZENDER_SSH_USER@$DEZENDER_HOST"             "printf 'SSH_OK\n'"
 
-      - name: Diagnose Plesk webroot
+      - name: Test SSH maintenance access
         shell: bash
         run: |
           set -euo pipefail
           export SSHPASS="$DEZENDER_SSH_PASSWORD"
-          sshpass -e ssh \
-            -o PreferredAuthentications=password \
-            -o PubkeyAuthentication=no \
-            -p "$DEZENDER_SSH_PORT" \
-            "$DEZENDER_SSH_USER@$DEZENDER_HOST" \
-            'echo "REMOTE_PWD=$(pwd)"; echo "--- ROOT ---"; ls -la; echo "--- DIRS ---"; find . -maxdepth 3 -type d 2>/dev/null | sort | head -200; echo "--- HTTPDOCS ---"; find . -maxdepth 4 -type d -name httpdocs -print 2>/dev/null'
+          sshpass -e ssh             -o PreferredAuthentications=password             -o PubkeyAuthentication=no             -p "$DEZENDER_SSH_PORT"             "$DEZENDER_SSH_USER@$DEZENDER_HOST"             'printf "SSH_OK\n"; test -d httpdocs'
 
-      - name: Deploy website over FTPS
+      - name: Deploy website to Plesk document root
         shell: bash
         run: |
           set -euo pipefail
-          lftp -u "$DEZENDER_USER","$DEZENDER_PASSWORD" "$DEZENDER_HOST" <<EOF
-          set ftp:ssl-force true
-          set ftp:ssl-protect-data true
-          set ssl:verify-certificate no
-          set net:max-retries 2
-          set net:timeout 20
-          set PUBLIC_FTP_PATH "httpdocs/helicopter-controller"
-          mkdir -p "$PUBLIC_FTP_PATH"
-          mirror -R --delete --verbose site/ "$PUBLIC_FTP_PATH/"
-          bye
-          EOF
+          export SSHPASS="$DEZENDER_SSH_PASSWORD"
+
+          sshpass -e ssh             -o PreferredAuthentications=password             -o PubkeyAuthentication=no             -p "$DEZENDER_SSH_PORT"             "$DEZENDER_SSH_USER@$DEZENDER_HOST"             'rm -rf httpdocs/helicopter-controller && mkdir -p httpdocs/helicopter-controller'
+
+          tar -C site -czf - . |           sshpass -e ssh             -o PreferredAuthentications=password             -o PubkeyAuthentication=no             -p "$DEZENDER_SSH_PORT"             "$DEZENDER_SSH_USER@$DEZENDER_HOST"             'tar -xzf - -C httpdocs/helicopter-controller'
+
+          sshpass -e ssh             -o PreferredAuthentications=password             -o PubkeyAuthentication=no             -p "$DEZENDER_SSH_PORT"             "$DEZENDER_SSH_USER@$DEZENDER_HOST"             'test -f httpdocs/helicopter-controller/index.html && grep -q "135er Heli Control" httpdocs/helicopter-controller/index.html && echo "SERVER_FILES_OK"'
 
       - name: Verify public website
         shell: bash
@@ -92,3 +77,4 @@ jobs:
           test "$code" = "200"
           grep -q "135er Heli Control" /tmp/heli-site.html
           grep -q "Built for rotary flight" /tmp/heli-site.html
+          echo "PUBLIC_SITE_OK"
