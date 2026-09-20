@@ -1,28 +1,11 @@
 #include "axis.h"
-
-static uint16_t clamp_u16(int32_t v) {
-    if (v < 0) return 0;
-    if (v > 65535) return 65535;
-    return (uint16_t)v;
-}
-
-uint16_t axis_filter(axis_state_t *axis, uint16_t sample) {
-    // Lightweight IIR filter: 75% previous, 25% new sample.
-    uint32_t filtered = ((uint32_t)axis->filtered * 3u + sample) / 4u;
-    axis->filtered = (uint16_t)filtered;
-    return axis->filtered;
-}
-
-uint16_t axis_apply_calibration(axis_state_t *axis, uint16_t raw) {
-    if (raw <= axis->raw_center) {
-        uint32_t span = axis->raw_center - axis->raw_min;
-        if (span == 0) return 32768;
-        int32_t out = (int32_t)((uint32_t)(raw - axis->raw_min) * 32768u / span);
-        return clamp_u16(out);
-    }
-
-    uint32_t span = axis->raw_max - axis->raw_center;
-    if (span == 0) return 32768;
-    uint32_t out = 32768u + ((uint32_t)(raw - axis->raw_center) * 32767u / span);
-    return clamp_u16((int32_t)out);
+static uint16_t clamp16(int32_t v){return v<0?0:(v>65535?65535:(uint16_t)v);}
+uint16_t axis_filter(axis_state_t*a,uint16_t s){a->filtered_raw=(uint16_t)(((uint32_t)a->filtered_raw*3u+s)/4u);return a->filtered_raw;}
+uint16_t axis_map(axis_state_t*a,uint16_t raw){
+ uint32_t out=0;if(raw<a->raw_min)raw=a->raw_min;if(raw>a->raw_max)raw=a->raw_max;
+ if(a->mode==AXIS_UNIPOLAR){uint32_t span=a->raw_max-a->raw_min;out=span?((uint32_t)(raw-a->raw_min)*65535u/span):0;}
+ else if(raw<=a->raw_center){uint32_t span=a->raw_center-a->raw_min;out=span?((uint32_t)(raw-a->raw_min)*32768u/span):32768u;}
+ else {uint32_t span=a->raw_max-a->raw_center;out=span?32768u+((uint32_t)(raw-a->raw_center)*32767u/span):32768u;}
+ if(a->mode==AXIS_BIPOLAR&&a->deadzone){int32_t d=(int32_t)out-32768;if(d<0)d=-d;if((uint32_t)d<=a->deadzone)out=32768;}
+ if(a->invert)out=65535u-out;return clamp16((int32_t)out);
 }
