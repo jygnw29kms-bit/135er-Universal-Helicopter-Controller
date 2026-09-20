@@ -67,6 +67,8 @@ jobs:
           grep -Eo 'href="[^"]+\.css[^"]*"' /tmp/grow-central.html || true
           echo "=== CLASS TOKENS ==="
           grep -Eo 'class="[^"]+"' /tmp/grow-central.html | head -120 || true
+          echo "=== GROW CENTRAL CSS ==="
+          curl -L -sS https://grow-central.de/styles.css?v=4.0.0 | sed -n '1,420p'
 
       - name: Deploy website to Plesk document root
         shell: bash
