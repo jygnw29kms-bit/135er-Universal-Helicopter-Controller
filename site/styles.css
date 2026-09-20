@@ -91,3 +91,28 @@
   .print-actions .btn{font-size:11px;padding:12px 10px}
   .print-image{height:220px}
 }
+
+
+/* ORIGINAL STL OVERVIEW */
+.stl-overview{margin-top:46px;padding-top:34px;border-top:1px solid rgba(86,215,255,.13)}
+.stl-overview-head{display:grid;grid-template-columns:1.1fr .9fr;gap:34px;align-items:end;margin-bottom:22px}
+.stl-overview-head span{display:block;color:var(--orange);font-size:10px;font-weight:900;letter-spacing:.22em;margin-bottom:8px}
+.stl-overview-head h3{margin:0;font-size:clamp(26px,4vw,42px);line-height:1.02}
+.stl-overview-head p{margin:0;color:var(--muted);line-height:1.6;font-size:14px}
+.stl-overview-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.stl-overview-card{background:linear-gradient(180deg,#0c151b,#081015);border:1px solid rgba(86,215,255,.13);border-radius:14px;overflow:hidden;min-width:0}
+.stl-live-preview{height:190px;position:relative;background:
+ radial-gradient(circle at 50% 42%,rgba(86,215,255,.08),transparent 42%),
+ linear-gradient(145deg,#101b22,#070c10 70%);overflow:hidden}
+.stl-live-preview:after{content:"";position:absolute;inset:auto 12% 11px 12%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,106,18,.65),transparent);box-shadow:0 0 16px rgba(255,106,18,.25)}
+.stl-live-preview canvas{width:100%;height:100%;display:block}
+.stl-load-state{position:absolute;inset:0;display:grid;place-items:center;color:#748994;font-size:10px;letter-spacing:.13em;text-transform:uppercase}
+.stl-load-state.error{color:#d98c63}
+.stl-meta{padding:13px 14px 15px;display:grid;gap:6px}
+.stl-meta small{font-size:8px;letter-spacing:.18em;color:var(--orange);font-weight:900}
+.stl-meta b{font-size:13px;overflow-wrap:anywhere}
+.stl-meta a{font-size:11px;color:var(--cyan);font-weight:800;margin-top:2px}
+.stl-meta a:hover{color:#fff}
+@media(max-width:1000px){.stl-overview-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:720px){.stl-overview-head{grid-template-columns:1fr}.stl-overview-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.stl-live-preview{height:165px}}
+@media(max-width:460px){.stl-overview-grid{grid-template-columns:1fr}.stl-live-preview{height:210px}}
