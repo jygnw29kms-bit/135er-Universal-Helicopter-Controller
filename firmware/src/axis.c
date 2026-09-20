@@ -46,6 +46,7 @@ uint16_t axis_filter(axis_state_t *state, uint16_t sample) {
 }
 
 static uint16_t apply_center_deadzone(uint16_t value, uint16_t deadzone) {
+    if (value == 0u || value == 65535u) return value;
     if (deadzone == 0u || deadzone >= 32767u) return value;
 
     int32_t x = (int32_t)value - 32768;
