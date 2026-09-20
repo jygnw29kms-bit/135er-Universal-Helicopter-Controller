@@ -55,6 +55,18 @@ jobs:
           export SSHPASS="$DEZENDER_SSH_PASSWORD"
           sshpass -e ssh             -o PreferredAuthentications=password             -o PubkeyAuthentication=no             -p "$DEZENDER_SSH_PORT"             "$DEZENDER_SSH_USER@$DEZENDER_HOST"             "printf 'SSH_OK\n'"
 
+      - name: Diagnose Plesk webroot
+        shell: bash
+        run: |
+          set -euo pipefail
+          export SSHPASS="$DEZENDER_SSH_PASSWORD"
+          sshpass -e ssh \
+            -o PreferredAuthentications=password \
+            -o PubkeyAuthentication=no \
+            -p "$DEZENDER_SSH_PORT" \
+            "$DEZENDER_SSH_USER@$DEZENDER_HOST" \
+            'echo "REMOTE_PWD=$(pwd)"; echo "--- ROOT ---"; ls -la; echo "--- DIRS ---"; find . -maxdepth 3 -type d 2>/dev/null | sort | head -200; echo "--- HTTPDOCS ---"; find . -maxdepth 4 -type d -name httpdocs -print 2>/dev/null'
+
       - name: Deploy website over FTPS
         shell: bash
         run: |
