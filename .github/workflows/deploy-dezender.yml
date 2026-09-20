@@ -38,7 +38,35 @@ jobs:
         shell: bash
         run: |
           sudo apt-get update
-          sudo apt-get install -y sshpass
+          sudo apt-get install -y sshpass openscad zip
+
+      - name: Build website STL downloads
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p site/downloads/stl/build/{cyclic,collective,pedals,electronics,validation}
+
+          for module in cyclic collective pedals electronics; do
+            for src in cad/$module/src/*.scad; do
+              name=$(basename "$src" .scad)
+              case "$name" in
+                parameters|preview_assembly) continue ;;
+              esac
+              openscad -o "site/downloads/stl/build/$module/${name}.stl" "$src"
+            done
+          done
+
+          openscad -o site/downloads/stl/build/validation/VALIDATION_PLATE_01.stl cad/validation/src/validation_plate_01.scad
+
+          (cd site/downloads/stl/build/cyclic && zip -r ../../135er_Heli_Control_Cyclic_STL.zip .)
+          (cd site/downloads/stl/build/collective && zip -r ../../135er_Heli_Control_Collective_STL.zip .)
+          (cd site/downloads/stl/build/pedals && zip -r ../../135er_Heli_Control_Pedals_STL.zip .)
+          (cd site/downloads/stl/build && zip -r ../135er_Heli_Control_All_STL.zip cyclic collective pedals electronics validation)
+
+          test -s site/downloads/stl/135er_Heli_Control_Cyclic_STL.zip
+          test -s site/downloads/stl/135er_Heli_Control_Collective_STL.zip
+          test -s site/downloads/stl/135er_Heli_Control_Pedals_STL.zip
+          test -s site/downloads/stl/135er_Heli_Control_All_STL.zip
 
       - name: Prepare SSH
         shell: bash
@@ -77,4 +105,7 @@ jobs:
           test "$code" = "200"
           grep -q "135er Heli Control" /tmp/heli-site.html
           grep -q "Precision in Flight" /tmp/heli-site.html
+          curl -L -f -sS -o /tmp/cyclic-stl.zip "https://dezender.de/helicopter-controller/downloads/stl/135er_Heli_Control_Cyclic_STL.zip"
+          test -s /tmp/cyclic-stl.zip
+          unzip -t /tmp/cyclic-stl.zip >/dev/null
           echo "PUBLIC_SITE_OK"
