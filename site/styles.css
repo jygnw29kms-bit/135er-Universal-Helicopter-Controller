@@ -130,3 +130,35 @@
 .stl-overview-loading.error{color:#d98c63}
 @media(max-width:720px){.stl-static-preview{height:165px}}
 @media(max-width:460px){.stl-static-preview{height:210px}}
+
+
+/* HC COREBOX ELECTRONICS */
+.product-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+.electronics-art{display:grid;place-items:center;background:radial-gradient(circle at 50% 45%,rgba(86,215,255,.12),transparent 45%),#071015}
+.electronics-art img{width:100%;height:100%;object-fit:contain;padding:22px}
+.electronics-section{background:linear-gradient(180deg,#071015,#081116)}
+.electronics-layout{display:grid;grid-template-columns:.82fr 1.18fr;gap:26px;align-items:stretch}
+.electronics-preview{position:relative;min-height:420px;border:1px solid rgba(86,215,255,.17);background:radial-gradient(circle at 50% 45%,rgba(86,215,255,.09),transparent 45%),#070d11;overflow:hidden}
+.electronics-preview img{width:100%;height:100%;object-fit:contain;padding:34px}
+.electronics-preview span{position:absolute;left:18px;bottom:16px;padding:7px 9px;background:rgba(5,9,12,.78);border-left:2px solid var(--orange);font-size:8px;font-weight:900;letter-spacing:.15em}
+.electronics-copy{display:flex;flex-direction:column;gap:18px}
+.electronics-spec-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.electronics-spec-grid article{border:1px solid #234a58;background:#091218;padding:16px;min-height:132px}
+.electronics-spec-grid small{display:block;color:var(--orange);font-size:8px;letter-spacing:.17em;font-weight:900;margin-bottom:6px}
+.electronics-spec-grid b{font-size:14px}
+.electronics-spec-grid p{font-size:11px;line-height:1.55;color:#93a5ad;margin:8px 0 0}
+.electronics-tiers{border:1px solid rgba(255,106,18,.25);background:#0a1115;padding:16px}
+.electronics-tiers h3{margin:0 0 10px;font-size:16px}
+.electronics-tiers>div{display:grid;grid-template-columns:1fr 1fr;gap:7px 14px}
+.electronics-tiers span{font-size:10px;color:#9fb0b7;line-height:1.45}
+.electronics-tiers b{color:#f4f7f8;font-size:9px;letter-spacing:.08em}
+.electronics-actions{display:flex;flex-wrap:wrap;gap:10px}
+.electronics-note{margin:0;color:#8fa1aa;font-size:11px;line-height:1.55}
+.wiring-flow{margin-top:24px;display:grid;grid-template-columns:1fr auto 1fr auto 1fr auto 1.15fr auto .8fr;gap:8px;align-items:center}
+.wiring-flow article{min-height:78px;border:1px solid #224754;background:#081116;padding:13px;display:flex;flex-direction:column;justify-content:center}
+.wiring-flow article.core{border-color:rgba(255,106,18,.55);box-shadow:inset 0 0 24px rgba(255,106,18,.05)}
+.wiring-flow b{font-size:10px;letter-spacing:.08em}
+.wiring-flow span{font-size:9px;color:#82959d;margin-top:4px}
+.wiring-flow i{font-style:normal;color:var(--cyan);font-size:18px}
+@media(max-width:1050px){.product-grid{grid-template-columns:repeat(2,1fr)}.electronics-layout{grid-template-columns:1fr}.wiring-flow{grid-template-columns:1fr}.wiring-flow i{transform:rotate(90deg);justify-self:center}}
+@media(max-width:620px){.product-grid{grid-template-columns:1fr}.electronics-spec-grid,.electronics-tiers>div{grid-template-columns:1fr}.electronics-preview{min-height:300px}}
