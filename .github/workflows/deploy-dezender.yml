@@ -68,6 +68,17 @@ jobs:
           test -s site/downloads/stl/135er_Heli_Control_Pedals_STL.zip
           test -s site/downloads/stl/135er_Heli_Control_All_STL.zip
 
+          for module in cyclic collective pedals; do
+            count=$(find "site/downloads/stl/build/$module" -maxdepth 1 -type f -name '*.stl' -size +1024c | wc -l)
+            echo "$module STL count: $count"
+            test "$count" -gt 0
+          done
+
+          unzip -t site/downloads/stl/135er_Heli_Control_Cyclic_STL.zip
+          unzip -t site/downloads/stl/135er_Heli_Control_Collective_STL.zip
+          unzip -t site/downloads/stl/135er_Heli_Control_Pedals_STL.zip
+          unzip -t site/downloads/stl/135er_Heli_Control_All_STL.zip
+
       - name: Prepare SSH
         shell: bash
         run: |
@@ -108,4 +119,6 @@ jobs:
           curl -L -f -sS -o /tmp/cyclic-stl.zip "https://dezender.de/helicopter-controller/downloads/stl/135er_Heli_Control_Cyclic_STL.zip"
           test -s /tmp/cyclic-stl.zip
           unzip -t /tmp/cyclic-stl.zip >/dev/null
+          curl -L -f -sS -o /tmp/cyclic-base.stl "https://dezender.de/helicopter-controller/downloads/stl/build/cyclic/base.stl"
+          test $(wc -c < /tmp/cyclic-base.stl) -gt 1024
           echo "PUBLIC_SITE_OK"
