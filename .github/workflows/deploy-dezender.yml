@@ -56,6 +56,18 @@ jobs:
           export SSHPASS="$DEZENDER_SSH_PASSWORD"
           sshpass -e ssh             -o PreferredAuthentications=password             -o PubkeyAuthentication=no             -p "$DEZENDER_SSH_PORT"             "$DEZENDER_SSH_USER@$DEZENDER_HOST"             'printf "SSH_OK\n"; test -d httpdocs'
 
+      - name: Inspect Grow Central reference
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -L -sS https://grow-central.de/ -o /tmp/grow-central.html
+          echo "=== GROW CENTRAL HTML HEAD ==="
+          sed -n '1,220p' /tmp/grow-central.html
+          echo "=== STYLESHEETS ==="
+          grep -Eo 'href="[^"]+\.css[^"]*"' /tmp/grow-central.html || true
+          echo "=== CLASS TOKENS ==="
+          grep -Eo 'class="[^"]+"' /tmp/grow-central.html | head -120 || true
+
       - name: Deploy website to Plesk document root
         shell: bash
         run: |
