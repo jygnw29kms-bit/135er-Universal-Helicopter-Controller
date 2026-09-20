@@ -56,15 +56,6 @@ jobs:
           export SSHPASS="$DEZENDER_SSH_PASSWORD"
           sshpass -e ssh             -o PreferredAuthentications=password             -o PubkeyAuthentication=no             -p "$DEZENDER_SSH_PORT"             "$DEZENDER_SSH_USER@$DEZENDER_HOST"             'printf "SSH_OK\n"; test -d httpdocs'
 
-      - name: Sync Grow Central design system
-        shell: bash
-        run: |
-          set -euo pipefail
-          curl -L -sS "https://grow-central.de/styles.css?v=4.0.0" -o site/styles.css
-          test -s site/styles.css
-          grep -q "site-header" site/styles.css
-          echo "GROW_CENTRAL_DESIGN_OK"
-
       - name: Deploy website to Plesk document root
         shell: bash
         run: |
