@@ -6,6 +6,8 @@ on:
       - main
     paths:
       - site/**
+      - cad/**
+      - scripts/**
       - .github/workflows/deploy-dezender.yml
   workflow_dispatch: {}
 
@@ -38,7 +40,7 @@ jobs:
         shell: bash
         run: |
           sudo apt-get update
-          sudo apt-get install -y sshpass openscad zip
+          sudo apt-get install -y sshpass openscad zip xvfb webp
 
       - name: Build website STL downloads
         shell: bash
@@ -78,6 +80,19 @@ jobs:
           unzip -t site/downloads/stl/135er_Heli_Control_Collective_STL.zip
           unzip -t site/downloads/stl/135er_Heli_Control_Pedals_STL.zip
           unzip -t site/downloads/stl/135er_Heli_Control_All_STL.zip
+
+      - name: Render static STL preview images
+        shell: bash
+        run: |
+          set -euo pipefail
+          chmod +x scripts/render_stl_previews.sh
+          scripts/render_stl_previews.sh \
+            site/downloads/stl/build \
+            site/assets/stl-previews \
+            site/assets/stl-previews/manifest.json
+          test -s site/assets/stl-previews/manifest.json
+          test "$(find site/assets/stl-previews -type f -name '*.webp' -size +1024c | wc -l)" -gt 0
+
 
       - name: Prepare SSH
         shell: bash
@@ -121,4 +136,15 @@ jobs:
           unzip -t /tmp/cyclic-stl.zip >/dev/null
           curl -L -f -sS -o /tmp/cyclic-base.stl "https://dezender.de/helicopter-controller/downloads/stl/build/cyclic/base.stl"
           test $(wc -c < /tmp/cyclic-base.stl) -gt 1024
+          curl -L -f -sS -o /tmp/stl-manifest.json "https://dezender.de/helicopter-controller/assets/stl-previews/manifest.json"
+          python3 -m json.tool /tmp/stl-manifest.json >/dev/null
+          preview=$(python3 - <<'PY'
+import json
+m=json.load(open('/tmp/stl-manifest.json'))
+print(m[0]['preview'] if m else '')
+PY
+)
+          test -n "$preview"
+          curl -L -f -sS -o /tmp/stl-preview.webp "https://dezender.de/helicopter-controller/$preview"
+          test $(wc -c < /tmp/stl-preview.webp) -gt 1024
           echo "PUBLIC_SITE_OK"
