@@ -77,7 +77,18 @@ jobs:
           set ssl:verify-certificate no
           set net:max-retries 2
           set net:timeout 20
-          mkdir -p "$DEZENDER_FTP_PATH"
-          mirror -R --delete --verbose site/ "$DEZENDER_FTP_PATH/"
+          set PUBLIC_FTP_PATH "httpdocs/helicopter-controller"
+          mkdir -p "$PUBLIC_FTP_PATH"
+          mirror -R --delete --verbose site/ "$PUBLIC_FTP_PATH/"
           bye
           EOF
+
+      - name: Verify public website
+        shell: bash
+        run: |
+          set -euo pipefail
+          code=$(curl -L -sS -o /tmp/heli-site.html -w "%{http_code}" "https://dezender.de/helicopter-controller/")
+          echo "HTTP_STATUS=$code"
+          test "$code" = "200"
+          grep -q "135er Heli Control" /tmp/heli-site.html
+          grep -q "Built for rotary flight" /tmp/heli-site.html
