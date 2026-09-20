@@ -13,3 +13,20 @@
 .crop-pedals{object-position:84% 68%}
 .product-art:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(5,9,12,.85),transparent 45%)}
 @media(max-width:620px){.hardware-stage{height:360px;transform:none}.render-label{font-size:8px}.render-label span{display:none}.product-art{height:220px}}
+
+/* Heli Control STL previews + Bambu Lab P2S profiles */
+.print-files{background:linear-gradient(180deg,#071015,#05090c)}
+.print-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.print-card{border:1px solid #285064;background:linear-gradient(180deg,#0d171d,#070d11);overflow:hidden}
+.print-image{height:280px;background:radial-gradient(circle at 50% 42%,#1b2930 0,#0b1216 55%,#060a0d 100%);overflow:hidden;position:relative}
+.print-image:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(5,9,12,.7),transparent 55%)}
+.print-image img{width:100%;height:100%;object-fit:cover;filter:saturate(.95) contrast(1.06);transition:transform .35s ease}
+.print-card:hover .print-image img{transform:scale(1.045)}
+.print-copy{padding:20px}
+.print-copy small{font-size:9px;letter-spacing:.18em;color:#6f96a6}
+.print-copy h3{font-size:26px;margin:7px 0 8px}
+.print-copy p{color:#9fb0b7;font-size:13px;line-height:1.6;min-height:66px}
+.print-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.print-note{margin:18px 0 0;padding:14px 16px;border-left:2px solid var(--orange);background:#091116;color:#9fb0b7;font-size:12px;line-height:1.6}
+@media(max-width:980px){.print-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:620px){.print-grid{grid-template-columns:1fr}.print-image{height:240px}}
