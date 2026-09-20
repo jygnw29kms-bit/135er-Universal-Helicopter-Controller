@@ -12,7 +12,7 @@
   <meta property="og:url" content="https://dezender.de/helicopter-controller/">
   <title>135er Heli Control · Precision in Flight</title>
   <link rel="icon" type="image/svg+xml" href="assets/brand-mark.svg">
-  <link rel="stylesheet" href="styles.css?v=6.2.0">
+  <link rel="stylesheet" href="styles.css?v=6.3.0">
 </head>
 <body>
 <a class="skip-link" href="#main">Zum Inhalt springen</a>
@@ -27,6 +27,7 @@
     <nav id="siteNav">
       <a href="#system">System</a>
       <a href="#produkte">Controls</a>
+      <a href="#elektronik">Elektronik</a>
       <a href="#technik">Technik</a>
       <a href="#compat">Kompatibilität</a>
       <a href="#status">Status</a>
@@ -107,6 +108,60 @@
           <div class="product-art"><img class="product-crop crop-pedals" src="assets/pedals-render.webp" alt="Gerenderte Vorschau der Pedale mit Toe Brakes"></div>
           <div class="card-copy"><small>SOLID PLATFORM</small><h3>Pedals</h3><p>Anti-Torque-Yaw plus getrennte linke und rechte Toe Brake für saubere Ground-Control.</p><a href="#technik">Mehr erfahren →</a></div>
         </article>
+        <article class="product-card electronics-card">
+          <div class="product-art electronics-art">
+            <img src="assets/stl-previews/electronics/controller_tray.webp" alt="Gerenderte STL-Vorschau der Heli Control Elektronikbox" loading="lazy">
+          </div>
+          <div class="card-copy"><small>CENTRAL ELECTRONICS</small><h3>HC-CoreBox</h3><p>Zentrale, druckbare Elektronikbox für Pico 2, MCP3208, Sensorleitungen und saubere modulare Verdrahtung – ohne teure Kleinserien-PCB.</p><a href="#elektronik">Elektronik ansehen →</a></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section electronics-section" id="elektronik">
+    <div class="wrap">
+      <div class="section-head">
+        <div><span>HC-COREBOX · ZENTRALE ELEKTRONIK</span><h2>Einfach verdrahten. Einfach nachbauen.</h2></div>
+        <p>Heli Control verwendet bewusst fertige Standardmodule statt einer teuren Eigenbauplatine in Kleinserie. Die zentrale Elektronik sitzt in einer druckbaren Box und bleibt reparierbar, erweiterbar und günstig.</p>
+      </div>
+
+      <div class="electronics-layout">
+        <div class="electronics-preview">
+          <img src="assets/stl-previews/electronics/controller_tray.webp" alt="Original STL-Render des aktuellen Controller-Trays" loading="lazy">
+          <span>AKTUELLER STL-STAND · CONTROLLER TRAY</span>
+        </div>
+        <div class="electronics-copy">
+          <div class="electronics-spec-grid">
+            <article><small>CONTROLLER</small><b>Raspberry Pi Pico 2</b><p>RP2350 als USB-HID-Controller und Diagnose-Schnittstelle.</p></article>
+            <article><small>ANALOG</small><b>MCP3208</b><p>8-Kanal-ADC für bis zu sieben Hall-Achsen mit zentraler Verkabelung.</p></article>
+            <article><small>SENSOREN</small><b>AS5600 analog OUT</b><p>Einheitliche kontaktlose Sensorik für Cyclic, Collective, Pedale und Toe Brakes.</p></article>
+            <article><small>GEHÄUSE</small><b>HC-CoreBox</b><p>Druckbares Gehäuse mit Kabelmanagement, Servicezugang und Erweiterungsreserve.</p></article>
+          </div>
+
+          <div class="electronics-tiers">
+            <h3>Eine Box – mehrere Ausbaustufen.</h3>
+            <div>
+              <span><b>LOW-COST</b> Pico 2 + Module + Dupont/Schraubklemmen</span>
+              <span><b>STANDARD</b> Pico 2 + MCP3208 + JST-Kabelbaum</span>
+              <span><b>PREMIUM</b> bessere Steckverbinder + sauberer Verteiler</span>
+              <span><b>HIGH-END</b> optionale Carrier-/Custom-Platine, niemals Pflicht</span>
+            </div>
+          </div>
+
+          <div class="electronics-actions">
+            <a class="btn hot" href="downloads/stl/build/electronics/controller_tray.stl" download>Controller Tray STL ↓</a>
+            <a class="btn dark" href="downloads/stl/build/electronics/controller_lid.stl" download>Controller Lid STL ↓</a>
+          </div>
+          <p class="electronics-note">Der aktuelle CAD-Stand enthält Controller-Tray und Deckel. Die geplante HC-CoreBox wird daraus modular weiterentwickelt; ihre Vorschaubilder erscheinen nach dem STL-Build automatisch in der Gesamtübersicht.</p>
+        </div>
+      </div>
+
+      <div class="wiring-flow" aria-label="Elektronik Signalweg">
+        <article><b>CYCLIC</b><span>2 Hall-Achsen</span></article><i>→</i>
+        <article><b>COLLECTIVE</b><span>2 Hall-Achsen</span></article><i>→</i>
+        <article><b>PEDALS</b><span>3 Hall-Achsen</span></article><i>→</i>
+        <article class="core"><b>HC-COREBOX</b><span>MCP3208 + Pico 2</span></article><i>→</i>
+        <article><b>USB</b><span>HID + CDC</span></article>
       </div>
     </div>
   </section>
@@ -115,7 +170,7 @@
     <div class="wrap">
       <div class="section-head">
         <div><span>STL + P2S PROFILE</span><h2>Druckdateien mit passendem Profil.</h2></div>
-        <p>Die Renderbilder zeigen die drei Hauptbaugruppen des aktuellen Heli-Control-CAD-Stands. Zu jeder Baugruppe liegt ein abgestimmtes Bambu-Lab-P2S-PETG-Prozessprofil für 0,4-mm-Düse und 0,20-mm-Schichthöhe bereit.</p>
+        <p>Die Renderbilder zeigen die mechanischen Hauptbaugruppen und die Elektronikbox des aktuellen Heli-Control-CAD-Stands. Zu jeder Baugruppe liegt ein abgestimmtes Bambu-Lab-P2S-PETG-Prozessprofil für 0,4-mm-Düse und 0,20-mm-Schichthöhe bereit.</p>
       </div>
 
       <div class="print-grid">
@@ -184,6 +239,24 @@
               <a href="downloads/stl/build/pedals/sensor_mount_as5600.stl" download>sensor_mount_as5600.stl</a>
               <a href="downloads/stl/build/pedals/toe_brake_left.stl" download>toe_brake_left.stl</a>
               <a href="downloads/stl/build/pedals/toe_brake_right.stl" download>toe_brake_right.stl</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="print-card">
+          <div class="print-image"><img src="assets/stl-previews/electronics/controller_tray.webp" alt="STL-Vorschau der Heli Control Elektronikbox" loading="lazy"></div>
+          <div class="print-copy">
+            <small>ELECTRONICS · STL PREVIEW</small>
+            <h3>HC-CoreBox / Electronics</h3>
+            <p>Supportarm druckbare Zentralbox für Standardmodule. Kein Custom-PCB erforderlich; modular für Low-Cost bis High-End.</p>
+            <div class="print-actions">
+              <a class="btn hot" href="downloads/stl/build/electronics/controller_tray.stl" download>Controller Tray STL ↓</a>
+              <a class="btn" href="downloads/stl/build/electronics/controller_lid.stl" download>Controller Lid STL ↓</a>
+            </div>
+            <div class="stl-file-list">
+              <span>Aktueller Stand:</span>
+              <a href="downloads/stl/build/electronics/controller_tray.stl" download>controller_tray.stl</a>
+              <a href="downloads/stl/build/electronics/controller_lid.stl" download>controller_lid.stl</a>
             </div>
           </div>
         </article>
