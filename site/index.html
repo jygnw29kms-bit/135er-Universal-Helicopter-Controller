@@ -3,222 +3,219 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#080a0d">
-  <meta name="description" content="135er Heli Control – eigenständiges Helicopter-Control-System für MSFS, X-Plane und weitere Simulatoren. Cyclic, Collective, Anti-Torque-Pedale und Toe Brakes mit Hall-Sensorik und RP2350.">
+  <meta name="theme-color" content="#060a0d">
+  <meta name="description" content="135er Heli Control – modulares Helicopter-Control-System für MSFS, X-Plane und weitere Simulatoren. Cyclic, Collective, Anti-Torque-Pedale und Toe Brakes mit Hall-Sensorik und RP2350.">
   <meta name="robots" content="index,follow,max-image-preview:large">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="135er Heli Control · Flight Operations System">
+  <meta property="og:title" content="135er Heli Control · Precision in Flight">
   <meta property="og:description" content="Cyclic, Collective, Pedale und Toe Brakes. Kontaktlos, modular und offen entwickelt.">
   <meta property="og:url" content="https://dezender.de/helicopter-controller/">
-  <title>135er Heli Control · Flight Operations System</title>
+  <title>135er Heli Control · Precision in Flight</title>
   <link rel="icon" type="image/svg+xml" href="assets/brand-mark.svg">
-  <link rel="stylesheet" href="styles.css?v=5.0.0">
+  <link rel="stylesheet" href="styles.css?v=6.0.0">
 </head>
 <body>
 <a class="skip-link" href="#main">Zum Inhalt springen</a>
-<div class="noise" aria-hidden="true"></div>
 
-<header class="site-header">
-  <div class="wrap nav-wrap">
-    <a class="brand" href="#top"><img src="assets/heli-control-lockup.svg" alt="135er Heli Control"></a>
-    <button class="menu-toggle" id="menuToggle" aria-label="Navigation öffnen" aria-expanded="false">☰</button>
-    <nav class="site-nav" id="siteNav">
+<header class="topbar">
+  <div class="wrap nav">
+    <a class="brand" href="#top" aria-label="135er Heli Control">
+      <span class="brand135">135er</span><span>Heli Control</span>
+      <small>Universal Helicopter Controller</small>
+    </a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Navigation öffnen">☰</button>
+    <nav id="siteNav">
       <a href="#system">System</a>
-      <a href="#controls">Controls</a>
-      <a href="#technology">Technik</a>
-      <a href="#build">Build</a>
+      <a href="#produkte">Controls</a>
+      <a href="#technik">Technik</a>
+      <a href="#compat">Kompatibilität</a>
       <a href="#status">Status</a>
-      <a class="nav-cta" href="#faq">FAQ</a>
+      <a href="#faq">FAQ</a>
     </nav>
+    <a class="nav-cta" href="https://github.com/jygnw29kms-bit/135er-Universal-Helicopter-Controller">Open Source <span>→</span></a>
   </div>
 </header>
 
 <main id="main">
   <section class="hero" id="top">
-    <div class="wrap hero-grid">
-      <div>
-        <div class="eyebrow"><span class="dot"></span> FLIGHT OPERATIONS SYSTEM</div>
-        <h1>Rotary Flight.<br><span>Full Control.</span></h1>
-        <p class="lead">135er Heli Control ist ein eigenständiges Helicopter-Control-System für Simulatorpiloten. Cyclic, Collective, Anti-Torque-Pedale und unabhängige Toe Brakes arbeiten als ein abgestimmtes System — mit kontaktloser Hall-Sensorik, RP2350-Steuerung und Standard USB HID.</p>
-        <div class="hero-actions">
-          <a class="btn primary" href="#system">System ansehen</a>
-          <a class="btn ghost" href="https://github.com/jygnw29kms-bit/135er-Universal-Helicopter-Controller">Open Source</a>
+    <div class="hero-grid-overlay"></div>
+    <div class="mountains" aria-hidden="true">
+      <svg viewBox="0 0 1600 700" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#17222a"/><stop offset=".58" stop-color="#302019"/><stop offset="1" stop-color="#0a0f13"/></linearGradient>
+          <linearGradient id="sun" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#ffae41" stop-opacity=".95"/><stop offset="1" stop-color="#ff5a1f" stop-opacity="0"/></linearGradient>
+        </defs>
+        <rect width="1600" height="700" fill="url(#sky)"/>
+        <circle cx="1285" cy="205" r="74" fill="#ff9f34" opacity=".12"/>
+        <circle cx="1285" cy="205" r="16" fill="#ffd28a"/>
+        <path d="M0 470L175 310 265 390 450 205 600 390 760 255 880 360 1050 190 1180 338 1325 240 1600 450V700H0Z" fill="#11191e"/>
+        <path d="M0 535L245 395 360 475 585 315 760 485 965 330 1130 475 1320 325 1600 505V700H0Z" fill="#0b1115"/>
+      </svg>
+    </div>
+
+    <div class="wrap hero-content">
+      <div class="hero-copy">
+        <div class="micro">SIMULATE <i>×</i> BUILD <i>×</i> FLY <i>×</i> IMPROVE</div>
+        <h1>Precision<br><em>in Flight.</em></h1>
+        <p>Ein vollständiges Helicopter-Control-System für anspruchsvolle Simulatorpiloten. Cyclic, Collective, Anti-Torque-Pedale und Toe Brakes. Modular. Präzise. Open Source.</p>
+        <div class="actions">
+          <a class="btn hot" href="#system">System entdecken <span>→</span></a>
+          <a class="btn dark" href="https://github.com/jygnw29kms-bit/135er-Universal-Helicopter-Controller">&lt;/&gt;&nbsp; Open Source</a>
         </div>
-        <div class="trust-row">
-          <span>7 ANALOG AXES</span>
-          <span>HALL SENSING</span>
-          <span>USB HID</span>
-          <span>MSFS + X-PLANE</span>
+        <div class="hero-notes">
+          <span><b>7</b> analoge Achsen</span>
+          <span><b>Hall</b> kontaktlos</span>
+          <span><b>USB HID</b> Plug & Play</span>
         </div>
       </div>
 
-      <div class="hero-visual">
-        <div class="ops-frame">
-          <div class="scope"></div>
-          <div class="scope-ring"></div>
-          <div class="collective"></div>
-          <div class="cyclic"></div>
-          <div class="pedals"></div>
-          <div class="hud-tag tag1">COLLECTIVE / THROTTLE</div>
-          <div class="hud-tag tag2">PEDALS / TOE BRAKES</div>
-          <div class="hud-tag tag3">CYCLIC / PITCH + ROLL</div>
+      <div class="hardware-stage" aria-label="Darstellung des Heli-Control-Systems">
+        <div class="sunflare"></div>
+        <div class="heli-silhouette">
+          <svg viewBox="0 0 420 180" aria-hidden="true">
+            <g fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M116 116c22-34 54-55 103-54 43 1 72 21 89 49l37 2 26 22-31 7h-53c-21 19-52 28-90 27-39-1-71-14-90-37z"/>
+              <path d="M177 68l-20-32M244 63l29-36M193 31h125M319 31h82M107 112L42 92M118 126H68M176 153l-21 22M264 151l21 22"/>
+            </g>
+          </svg>
+        </div>
+        <div class="collective render-part">
+          <div class="base"></div><div class="arm"></div><div class="grip"></div>
+          <span>COLLECTIVE<small>Smooth. Progressive.</small></span>
+        </div>
+        <div class="cyclic render-part">
+          <div class="base"></div><div class="shaft"></div><div class="grip"></div>
+          <span>CYCLIC<small>Direct. Precise.</small></span>
+        </div>
+        <div class="pedals render-part">
+          <div class="rail"></div><div class="pedal p1"></div><div class="pedal p2"></div>
+          <span>PEDALS + TOE BRAKES<small>Stable. Independent.</small></span>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="signal-bar">
-    <div class="wrap signal-grid">
-      <div><small>CONTROL 01</small><strong>Cyclic</strong></div>
-      <div><small>CONTROL 02</small><strong>Collective</strong></div>
-      <div><small>CONTROL 03</small><strong>Pedals</strong></div>
-      <div><small>INTERFACE</small><strong>USB HID</strong></div>
+  <section class="proof-strip">
+    <div class="wrap proof-grid">
+      <article><div class="hex">◎</div><div><b>7 Analog Axes</b><span>Kontaktlose Kontrolle</span></div></article>
+      <article><div class="hex">⌁</div><div><b>Hall Sensing</b><span>Langlebig & verschleißfrei</span></div></article>
+      <article><div class="hex">⇄</div><div><b>USB HID</b><span>Standard-Schnittstelle</span></div></article>
+      <article><div class="hex">✈</div><div><b>MSFS + X-Plane</b><span>Für moderne Simulatoren</span></div></article>
     </div>
   </section>
 
-  <section class="section" id="system">
-    <div class="wrap split-head">
-      <div>
-        <div class="eyebrow">SYSTEM OVERVIEW</div>
-        <h2>Gebaut für Rotary Flight.</h2>
+  <section class="section system" id="system">
+    <div class="wrap">
+      <div class="section-head">
+        <div><span>DAS SYSTEM AUF EINEN BLICK</span><h2>Vier Module. Ein Erlebnis.</h2></div>
+        <p>Jede Baugruppe ist eigenständig, gemeinsam entsteht ein vollständiges Helicopter-Control-System — entwickelt für mehr Immersion und kontrollierbare Präzision.</p>
       </div>
-      <p>Das System orientiert sich an echten Helicopter-Steuerwegen statt an Desktop-Joystick-Logik. Jeder Hauptbereich bleibt mechanisch eigenständig und wird elektrisch als separate Achse erfasst.</p>
-    </div>
-
-    <div class="wrap value-grid">
-      <article class="value-card featured">
-        <div class="icon">✦</div>
-        <h3>Cyclic</h3>
-        <p>Pitch und Roll über einen gelagerten Doppelgimbal mit Stahlachsen und zwei kontaktlosen Sensorachsen.</p>
-        <span>2 AXES</span>
-      </article>
-      <article class="value-card">
-        <div class="icon">▲</div>
-        <h3>Collective</h3>
-        <p>Collective-Pitch und Twist-Throttle mit einstellbarer Reibung und servicefreundlichem Griffaufbau.</p>
-        <span>2 AXES</span>
-      </article>
-      <article class="value-card">
-        <div class="icon">◫</div>
-        <h3>Pedals</h3>
-        <p>Anti-Torque-Yaw mit separater mechanischer Hauptachse und präziser magnetischer Erfassung.</p>
-        <span>1 AXIS</span>
-      </article>
-      <article class="value-card">
-        <div class="icon">▣</div>
-        <h3>Toe Brakes</h3>
-        <p>Unabhängige linke und rechte Bremse, mechanisch getrennt von der Yaw-Bewegung.</p>
-        <span>2 AXES</span>
-      </article>
-    </div>
-  </section>
-
-  <section class="section dark-section" id="controls">
-    <div class="wrap section-title">
-      <div>
-        <div class="eyebrow">CONTROL LOGIC</div>
-        <h2>Vier Bewegungen. Ein Helicopter.</h2>
+      <div class="product-grid" id="produkte">
+        <article class="product-card cyclic-card">
+          <div class="product-art"><div class="mini-cyclic"><i></i><b></b></div></div>
+          <div class="card-copy"><small>TOTAL CONTROL</small><h3>Cyclic</h3><p>Pitch und Roll über einen gelagerten Doppelgimbal mit Stahlachsen und Hall-Sensorik.</p><a href="#technik">Mehr erfahren →</a></div>
+        </article>
+        <article class="product-card collective-card">
+          <div class="product-art"><div class="mini-collective"><i></i><b></b></div></div>
+          <div class="card-copy"><small>SMOOTH INPUT</small><h3>Collective</h3><p>Collective-Pitch plus Twist-Throttle mit einstellbarer Reibung und modularer Mechanik.</p><a href="#technik">Mehr erfahren →</a></div>
+        </article>
+        <article class="product-card pedal-card">
+          <div class="product-art"><div class="mini-pedals"><i></i><b></b></div></div>
+          <div class="card-copy"><small>SOLID PLATFORM</small><h3>Pedals</h3><p>Anti-Torque-Yaw plus getrennte linke und rechte Toe Brake für saubere Ground-Control.</p><a href="#technik">Mehr erfahren →</a></div>
+        </article>
       </div>
-      <p>Die Geometrie und Bedienlogik folgen dem, was Rotary-Wing-Piloten erwarten: differenzierte Steuerwege statt universeller Kompromisse.</p>
-    </div>
-
-    <div class="wrap feature-grid">
-      <article><div class="num">01</div><h3>Pitch + Roll</h3><p>Cyclic-Bewegungen werden getrennt, fein und direkt erfasst.</p><span class="tag cyan">CYCLIC</span></article>
-      <article><div class="num">02</div><h3>Collective</h3><p>Gesamtpitch arbeitet als eigenständige, lange Hebelbewegung.</p><span class="tag amber">LIFT</span></article>
-      <article><div class="num">03</div><h3>Throttle</h3><p>Twist-Throttle bleibt unabhängig vom Collective-Weg.</p><span class="tag cyan">ENGINE</span></article>
-      <article><div class="num">04</div><h3>Yaw</h3><p>Anti-Torque-Pedale übernehmen die eigene Hauptachse für Richtungssteuerung.</p><span class="tag lime">PEDALS</span></article>
-      <article><div class="num">05</div><h3>Brake Left</h3><p>Linke Radbremse wird separat erfasst.</p><span class="tag amber">GROUND</span></article>
-      <article><div class="num">06</div><h3>Brake Right</h3><p>Rechte Radbremse bleibt unabhängig von der linken Bremse.</p><span class="tag amber">GROUND</span></article>
     </div>
   </section>
 
-  <section class="section" id="technology">
-    <div class="wrap split-head">
-      <div>
-        <div class="eyebrow">TECHNOLOGY</div>
-        <h2>Kontaktlos gemessen. Klar verarbeitet.</h2>
+  <section class="section engineered" id="technik">
+    <div class="wrap tech-layout">
+      <div class="tech-intro">
+        <span>TECHNOLOGIE, DIE DEN UNTERSCHIED MACHT</span>
+        <h2>Für echte Pilotenerlebnisse.</h2>
+        <p>Die Architektur setzt auf kontaktlose Sensorik, nachvollziehbare Elektronik und wartbare Module. Keine Marketingmagie — sondern eine klare Signalkette vom Magneten bis zum Simulator.</p>
       </div>
-      <p>Hall-Sensoren, ein externer MCP3208 und ein RP2350 bilden eine bewusst einfache und nachvollziehbare Signalkette. Die Firmware liefert Standard-HID plus Diagnose über USB CDC.</p>
-    </div>
-
-    <div class="wrap tech-strip">
-      <div><small>SENSORS</small><strong>7 × Hall</strong></div>
-      <div><small>ADC</small><strong>MCP3208</strong></div>
-      <div><small>MCU</small><strong>RP2350</strong></div>
-      <div><small>USB</small><strong>HID + CDC</strong></div>
-    </div>
-
-    <div class="wrap feature-grid" style="margin-top:14px">
-      <article><div class="num">A</div><h3>Persistent Calibration</h3><p>Min, Center, Max, Deadzone, Filter, Expo und Invertierung werden gespeichert.</p><span class="tag cyan">CALIBRATION</span></article>
-      <article><div class="num">B</div><h3>Diagnostics</h3><p>Live-Rohwerte, Report-Zähler und Loop-Overruns helfen bei Aufbau und Fehlersuche.</p><span class="tag lime">CDC</span></article>
-      <article><div class="num">C</div><h3>Serviceable Design</h3><p>Sensorhalter, Griffe, Reibungseinheit und Elektronik bleiben einzeln austauschbar.</p><span class="tag amber">MODULAR</span></article>
-    </div>
-  </section>
-
-  <section class="section dark-section" id="build">
-    <div class="wrap section-title">
-      <div>
-        <div class="eyebrow">BUILD PHILOSOPHY</div>
-        <h2>FDM, wo FDM Sinn ergibt.</h2>
+      <div class="tech-grid">
+        <article><div class="hex hothex">◉</div><h3>Hall-Sensoren</h3><p>Kontaktlose Positionsmessung auf allen sieben analogen Achsen.</p></article>
+        <article><div class="hex hothex">⚙</div><h3>Persistente Kalibrierung</h3><p>Min, Center, Max, Deadzone, Filter, Expo und Invertierung.</p></article>
+        <article><div class="hex hothex">▣</div><h3>USB CDC Diagnose</h3><p>Live-Rohwerte, Status, Kalibrierung und Debugging.</p></article>
+        <article><div class="hex hothex">◇</div><h3>Modulares Design</h3><p>Sensorhalter, Griffe und Mechanik bleiben austauschbar.</p></article>
+        <article><div class="hex hothex">⇄</div><h3>Standard USB HID</h3><p>Keine proprietäre Treiberschicht notwendig.</p></article>
+        <article><div class="hex hothex">▰</div><h3>FDM-first</h3><p>Gedruckte Struktur, Stahlachsen und Lager an den kritischen Stellen.</p></article>
       </div>
-      <p>Gedruckte Strukturteile werden dort eingesetzt, wo Individualisierung und Wartbarkeit zählen. Primäre Achsen bleiben aus Stahl, Drehpunkte laufen in Lagern.</p>
-    </div>
-
-    <div class="wrap integration-grid">
-      <article class="integration-card"><div class="integration-head"><div class="logo-token">01</div><span class="state local">VALIDATE</span></div><h3>Fit Coupons</h3><p>Lager-, Wellen-, Rohr-, Magnet- und Schraubenpassungen werden zuerst klein getestet.</p></article>
-      <article class="integration-card"><div class="integration-head"><div class="logo-token">02</div><span class="state hybrid">ASSEMBLE</span></div><h3>Cyclic First</h3><p>Die erste komplette Kontrollbaugruppe dient als Maßstab für Sensorik und Mechanik.</p></article>
-      <article class="integration-card"><div class="integration-head"><div class="logo-token">03</div><span class="state guarded">EXPAND</span></div><h3>Collective + Pedals</h3><p>Nach erfolgreicher Cyclic-Validierung folgen die übrigen Controls.</p></article>
-      <article class="integration-card"><div class="integration-head"><div class="logo-token">04</div><span class="state local">FLY</span></div><h3>Calibrate + Test</h3><p>Zum Schluss werden alle Achsen kalibriert und im Simulator gemappt.</p></article>
     </div>
   </section>
 
-  <section class="section" id="status">
-    <div class="wrap split-head">
-      <div>
-        <div class="eyebrow">PROGRAM STATUS</div>
-        <h2>Engineering Build. RC2 Candidate.</h2>
+  <section class="section architecture">
+    <div class="wrap">
+      <div class="section-head compact">
+        <div><span>TECHNIK IM DETAIL</span><h2>Durchdacht bis ins letzte Bit.</h2></div>
       </div>
-      <p>Firmware und CAD werden automatisiert gebaut und geprüft. Die Bezeichnung VALIDATED folgt erst nach realem Druck, Montage, Kalibrierung und Flugtest.</p>
-    </div>
-
-    <div class="wrap value-grid">
-      <article class="value-card featured"><div class="icon">✓</div><h3>Firmware CI</h3><p>RP2350-Build und Host-Tests laufen erfolgreich.</p><span>PASS</span></article>
-      <article class="value-card"><div class="icon">✓</div><h3>CAD CI</h3><p>Produktions- und Validierungsteile rendern automatisiert.</p><span>PASS</span></article>
-      <article class="value-card"><div class="icon">○</div><h3>Physical Build</h3><p>Reale Passungen und Mechanik müssen noch validiert werden.</p><span>PENDING</span></article>
-      <article class="value-card"><div class="icon">○</div><h3>Flight Test</h3><p>MSFS- und X-Plane-Tests folgen nach Hardwareaufbau.</p><span>PENDING</span></article>
+      <div class="signal-flow">
+        <article><div class="hex">◎</div><b>7 × Hall</b><span>AS5600 analog</span></article><i>→</i>
+        <article><div class="hex">▤</div><b>MCP3208</b><span>8-Kanal 12-Bit ADC</span></article><i>→</i>
+        <article><div class="hex">▣</div><b>RP2350</b><span>Pico 2 Controller</span></article><i>→</i>
+        <article><div class="hex">⇄</div><b>USB HID + CDC</b><span>Plug & Diagnose</span></article>
+      </div>
     </div>
   </section>
 
-  <section class="section dark-section" id="faq">
-    <div class="wrap section-title">
-      <div><div class="eyebrow">FAQ</div><h2>Operational Questions.</h2></div>
-      <p>Kurz, technisch und ohne den Entwicklungsstand größer darzustellen, als er ist.</p>
+  <section class="section compat" id="compat">
+    <div class="wrap compat-layout">
+      <div><span>KOMPATIBILITÄT</span><h2>Ready for your world.</h2><p>Standard USB HID macht das System unabhängig von einer proprietären Simulator-App.</p></div>
+      <div class="compat-cards">
+        <article><b>Microsoft Flight Simulator</b><small>MSFS 2020 / 2024</small></article>
+        <article><b>X-Plane</b><small>11 / 12</small></article>
+        <article><b>Windows</b><small>10 / 11</small></article>
+        <article><b>Linux / macOS</b><small>HID-kompatibel</small></article>
+      </div>
     </div>
-    <div class="wrap faq-list">
-      <details><summary>Ist das bereits ein fertiges Kaufprodukt?</summary><p>Nein. Der aktuelle Stand ist ein Engineering Build und RC2-Kandidat.</p></details>
-      <details><summary>Funktioniert es mit MSFS und X-Plane?</summary><p>Die Firmware nutzt Standard USB HID und kann in kompatiblen Simulatoren gemappt werden.</p></details>
-      <details><summary>Warum Hall-Sensoren?</summary><p>Die Positionsmessung arbeitet kontaktlos und ohne klassischen Potentiometer-Schleifkontakt.</p></details>
-      <details><summary>Ist das Projekt Open Source?</summary><p>Ja. CAD, Firmware und Dokumentation liegen offen im Repository.</p></details>
+  </section>
+
+  <section class="section status" id="status">
+    <div class="wrap">
+      <div class="section-head compact">
+        <div><span>PROJECT STATUS</span><h2>Transparent. Gemeinschaftlich. Offen.</h2></div>
+        <p>Wir unterscheiden klar zwischen automatisiert geprüfter Entwicklung und physischer Freigabe.</p>
+      </div>
+      <div class="status-grid">
+        <article class="pass"><i>✓</i><div><b>Firmware CI</b><strong>PASS</strong><span>Build & Host-Tests erfolgreich</span></div></article>
+        <article class="pass"><i>✓</i><div><b>CAD CI</b><strong>PASS</strong><span>OpenSCAD Build erfolgreich</span></div></article>
+        <article class="pending"><i>◷</i><div><b>Physical Build</b><strong>PENDING</strong><span>Prototyp noch zu validieren</span></div></article>
+        <article class="pending"><i>◷</i><div><b>Flight Test</b><strong>PENDING</strong><span>Simulator-Test nach Hardwareaufbau</span></div></article>
+      </div>
     </div>
-    <div class="wrap hero-actions">
-      <a class="btn primary" href="https://github.com/jygnw29kms-bit/135er-Universal-Helicopter-Controller">Repository öffnen</a>
-      <a class="btn ghost" href="https://github.com/jygnw29kms-bit/135er-Universal-Helicopter-Controller/blob/main/docs/VALIDATION_CHECKLIST.md">Validation Checklist</a>
+  </section>
+
+  <section class="section faq" id="faq">
+    <div class="wrap faq-layout">
+      <div><span>FAQ</span><h2>Was du wissen solltest.</h2></div>
+      <div class="faq-list">
+        <details><summary>Ist Heli Control schon ein fertiges Kaufprodukt?</summary><p>Nein. V1.1 ist aktuell ein Engineering Build und RC2-Kandidat. Die physische Gesamtvalidierung steht noch aus.</p></details>
+        <details><summary>Warum Hall-Sensorik?</summary><p>Die Position wird magnetisch und kontaktlos erfasst. Dadurch gibt es keinen klassischen Potentiometer-Schleifkontakt.</p></details>
+        <details><summary>Kann ich das System verändern?</summary><p>Ja. CAD, Firmware und Dokumentation sind offen und ausdrücklich auf Anpassbarkeit ausgelegt.</p></details>
+        <details><summary>Welche Simulatoren sind vorgesehen?</summary><p>Primär MSFS und X-Plane; durch Standard USB HID sind weitere kompatible Simulatoren möglich.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="final-cta">
+    <div class="final-bg"></div>
+    <div class="wrap final-inner">
+      <span>BEREIT FÜR DEN NÄCHSTEN LEVEL?</span>
+      <h2>Build it. Fly it.<br><em>Better together.</em></h2>
+      <p>135er Heli Control ist Open Source — entwickelt für eine Community, die Helicopter-Simulation besser machen will.</p>
+      <div class="actions"><a class="btn hot" href="#system">System entdecken →</a><a class="btn dark" href="https://github.com/jygnw29kms-bit/135er-Universal-Helicopter-Controller">&lt;/&gt;&nbsp; GitHub</a></div>
     </div>
   </section>
 </main>
 
-<footer class="site-footer">
-  <div class="wrap footer-grid">
-    <div><img class="footer-brand" src="assets/heli-control-lockup.svg" alt="135er Heli Control"><p>Eigenständiges Flight-Operations-System für Helicopter-Simulatoren. Inspiriert von klassischer 80er-Helicopter-Operations-Ästhetik, technisch modern umgesetzt.</p></div>
-    <div><strong>SYSTEM</strong><a href="#system">Overview</a><a href="#controls">Controls</a><a href="#technology">Technology</a></div>
-    <div><strong>PROJECT</strong><a href="#status">Status</a><a href="https://github.com/jygnw29kms-bit/135er-Universal-Helicopter-Controller">GitHub</a><a href="https://github.com/jygnw29kms-bit/135er-Universal-Helicopter-Controller/blob/main/LICENSE">License</a></div>
-  </div>
-  <div class="wrap footer-bottom">135er Heli Control · Flight Operations System</div>
+<footer>
+  <div class="wrap footer-row"><div><b><span>135er</span> Heli Control</b><small>Precision in Flight.</small></div><div><a href="https://github.com/jygnw29kms-bit/135er-Universal-Helicopter-Controller">Open Source</a><a href="#status">Status</a><a href="#faq">FAQ</a></div></div>
 </footer>
 
 <script>
-const btn=document.getElementById('menuToggle'),nav=document.getElementById('siteNav');
-if(btn&&nav){btn.addEventListener('click',()=>{const o=nav.classList.toggle('open');btn.setAttribute('aria-expanded',String(o));});nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>nav.classList.remove('open')));}
+const b=document.getElementById('menuToggle'),n=document.getElementById('siteNav');
+if(b&&n){b.onclick=()=>n.classList.toggle('open');n.querySelectorAll('a').forEach(a=>a.onclick=()=>n.classList.remove('open'))}
 </script>
 </body>
 </html>
