@@ -1,0 +1,32 @@
+name: Build FDM CAD
+
+on:
+  push:
+    paths:
+      - "cad/**"
+      - ".github/workflows/build-cad.yml"
+  workflow_dispatch:
+
+jobs:
+  build-stl:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install OpenSCAD
+        run: sudo apt-get update && sudo apt-get install -y openscad zip
+      - name: Export STL
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p build/stl/cyclic build/stl/collective build/stl/pedals
+          for module in cyclic collective pedals; do
+            for src in cad/$module/src/*.scad; do
+              name=$(basename "$src" .scad)
+              openscad -o "build/stl/$module/${name}.stl" "$src"
+            done
+          done
+          cd build && zip -r 135er-helicopter-controller-v1-stl.zip stl
+      - uses: actions/upload-artifact@v4
+        with:
+          name: 135er-helicopter-controller-v1-stl
+          path: build/135er-helicopter-controller-v1-stl.zip
