@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="135er Heli Control">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#79e0ff"/><stop offset="1" stop-color="#7cf2b3"/></linearGradient></defs>
+<rect width="128" height="128" rx="28" fill="#0b1017"/>
+<circle cx="64" cy="64" r="45" fill="none" stroke="#202a36" stroke-width="6"/>
+<path d="M64 20v88M20 64h88" stroke="#202a36" stroke-width="4"/>
+<path d="M64 31c18 0 33 15 33 33S82 97 64 97 31 82 31 64 46 31 64 31Z" fill="none" stroke="url(#g)" stroke-width="7"/>
+<path d="M64 45v19l15 10" fill="none" stroke="url(#g)" stroke-linecap="round" stroke-linejoin="round" stroke-width="8"/>
+</svg>
