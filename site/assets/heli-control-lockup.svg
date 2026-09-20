@@ -1,12 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 150" role="img" aria-label="135er Heli Control">
-<defs>
-  <linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#57d9ff"/><stop offset="1" stop-color="#9dff68"/></linearGradient>
-</defs>
-<rect width="132" height="132" x="8" y="9" rx="30" fill="#061014" stroke="#18323b" stroke-width="3"/>
-<circle cx="74" cy="75" r="42" fill="none" stroke="#18323b" stroke-width="5"/>
-<path d="M74 33v84M32 75h84" stroke="#18323b" stroke-width="3"/>
-<path d="M74 44c17 0 31 14 31 31s-14 31-31 31-31-14-31-31 14-31 31-31Z" fill="none" stroke="url(#g)" stroke-width="7"/>
-<path d="M74 57v18l14 9" fill="none" stroke="url(#g)" stroke-linecap="round" stroke-linejoin="round" stroke-width="7"/>
-<text x="166" y="67" fill="#ecf8fb" font-family="Arial,Helvetica,sans-serif" font-size="49" font-weight="800" letter-spacing="-2">135er HELI</text>
-<text x="166" y="112" fill="url(#g)" font-family="Arial,Helvetica,sans-serif" font-size="44" font-weight="800" letter-spacing="4">CONTROL</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 150" role="img" aria-label="135er Heli Control">
+<rect x="7" y="10" width="130" height="130" fill="#0a0d11" stroke="#333b44" stroke-width="3"/>
+<path d="M25 75h94M72 28v94" stroke="#232a32" stroke-width="3"/>
+<circle cx="72" cy="75" r="39" fill="none" stroke="#e43b32" stroke-width="6"/>
+<path d="M72 46v29l22 13" fill="none" stroke="#ffad32" stroke-width="6" stroke-linecap="square"/>
+<path d="M107 40l12 12-12 12" fill="none" stroke="#a8d7e6" stroke-width="3"/>
+<text x="165" y="65" fill="#f2f4f6" font-family="Arial Narrow,Arial,sans-serif" font-size="50" font-weight="900" letter-spacing="2">135er HELI CONTROL</text>
+<text x="166" y="108" fill="#e43b32" font-family="Arial Narrow,Arial,sans-serif" font-size="21" font-weight="800" letter-spacing="9">FLIGHT OPERATIONS SYSTEM</text>
 </svg>
