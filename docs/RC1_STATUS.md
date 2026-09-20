@@ -1,31 +1,48 @@
-# V1 RC1 Status
+# V1.1 / RC2 engineering status
 
-## Completed
-- Cross-platform standard USB HID architecture
-- RP2350/Pico 2 firmware source
-- Seven Hall-axis input architecture
-- MCP3208 SPI ADC integration
-- 16-bit logical HID axes
-- Cyclic CAD source
-- Collective CAD source
-- Pedal CAD source
-- FDM-first PETG print guidance
-- BOM
-- Assembly guide
-- MSFS and X-Plane profile guidance
-- Automated STL generation workflow
-- Automated firmware build workflow
+The project has moved beyond the original RC1 implementation. RC1 remains a useful historical milestone, but the main branch now contains the V1.1 engineering hardening work intended to become RC2.
 
-## Automated validation
-- CAD GitHub Actions build: **PASS**
-- RP2350/Pico 2 firmware GitHub Actions build: **PASS**
-- 16/16 locally rendered STL meshes: **watertight/manifold**
-- Largest part: pedal base, 240 x 180 x 54 mm
-- All current production parts fit the 256 x 256 x 256 mm design envelope
+## Implemented
 
-## Pending physical validation
-V1 RC1 is a buildable design release candidate, not a production-validated hardware release.
+- RP2350 / Pico 2 target
+- seven Hall-based analog axes
+- MCP3208 SPI acquisition
+- standard USB HID joystick
+- composite USB CDC diagnostics/configuration
+- 32 HID button bits plus 8-way hat
+- eight direct debounced button inputs
+- persistent CRC-protected calibration in flash
+- configurable inversion, filtering, deadzone and bipolar expo
+- unique USB serial number
+- acquisition overrun diagnostics
+- host-side axis regression tests
+- cyclic, collective and pedal CAD
+- actual toe-brake CAD modules
+- collective friction adjuster
+- split cyclic grip prototype
+- Pico/MCP3208 electronics enclosure
+- automated CAD and firmware builds
 
-An actual printed assembly must still pass `VALIDATION_CHECKLIST.md`, including bearing/shaft fit, mechanical travel, sensor alignment, measured Hall calibration values and simulator tests.
+## Not physically validated
 
-Only after those checks should the project be tagged **VALIDATED**.
+No V1.x release is allowed to be called VALIDATED until a real printed controller has passed:
+- fit coupons
+- bearing/shaft/tube fit
+- mechanical travel and hard-stop tests
+- Hall alignment
+- measured calibration
+- USB enumeration
+- button/hat tests
+- sustained overrun check
+- MSFS/X-Plane mapping
+- extended flight test
+
+## Remaining before RC2 freeze
+
+- print validation plate
+- freeze P2S/PETG dimensional compensation
+- confirm toe-brake pivot geometry on a physical pedal
+- confirm cyclic grip ergonomics and switch selection
+- confirm collective friction material and preload
+- create final wiring harness drawing
+- evaluate dedicated PCB after breadboard/prototype validation
