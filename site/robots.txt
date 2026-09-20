@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://dezender.de/helicopter-controller/sitemap.xml
