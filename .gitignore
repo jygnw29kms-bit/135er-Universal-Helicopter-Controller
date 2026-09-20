@@ -1,0 +1,16 @@
+# CAD exports / temp
+*.bak
+*.tmp
+*.autosave
+
+# Firmware build output
+build/
+.pio/
+CMakeFiles/
+CMakeCache.txt
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
