@@ -1,0 +1,18 @@
+{
+  "name": "135er Heli Control - Pedals - P2S PETG",
+  "inherits": "0.20mm Standard @BBL P2S",
+  "version": "1.0",
+  "compatible_printers": [
+    "Bambu Lab P2S 0.4 nozzle"
+  ],
+  "layer_height": "0.20",
+  "wall_loops": "4",
+  "top_shell_layers": "5",
+  "bottom_shell_layers": "5",
+  "sparse_infill_density": "40%",
+  "sparse_infill_pattern": "gyroid",
+  "enable_support": "0",
+  "brim_type": "outer_only",
+  "brim_width": "6",
+  "notes": "Production baseline for Pedals. Rocker can use 50% local infill. Use tested/default PETG filament temperatures. Scale 100%."
+}
