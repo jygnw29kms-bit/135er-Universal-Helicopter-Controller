@@ -1,0 +1,30 @@
+name: Build RP2350 Firmware
+
+on:
+  push:
+    paths:
+      - "firmware/**"
+      - ".github/workflows/build-firmware.yml"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install toolchain
+        run: sudo apt-get update && sudo apt-get install -y cmake ninja-build gcc-arm-none-eabi libnewlib-arm-none-eabi
+      - name: Fetch Pico SDK
+        run: git clone --depth 1 --recurse-submodules https://github.com/raspberrypi/pico-sdk.git "$HOME/pico-sdk"
+      - name: Configure
+        run: cmake -S firmware -B build -G Ninja -DPICO_BOARD=pico2
+        env:
+          PICO_SDK_PATH: "$HOME/pico-sdk"
+      - name: Build
+        run: cmake --build build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: 135er-helicopter-controller-rp2350
+          path: |
+            build/*.uf2
+            build/*.elf
