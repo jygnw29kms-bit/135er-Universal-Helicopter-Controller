@@ -56,19 +56,14 @@ jobs:
           export SSHPASS="$DEZENDER_SSH_PASSWORD"
           sshpass -e ssh             -o PreferredAuthentications=password             -o PubkeyAuthentication=no             -p "$DEZENDER_SSH_PORT"             "$DEZENDER_SSH_USER@$DEZENDER_HOST"             'printf "SSH_OK\n"; test -d httpdocs'
 
-      - name: Inspect Grow Central reference
+      - name: Sync Grow Central design system
         shell: bash
         run: |
           set -euo pipefail
-          curl -L -sS https://grow-central.de/ -o /tmp/grow-central.html
-          echo "=== GROW CENTRAL HTML HEAD ==="
-          sed -n '1,220p' /tmp/grow-central.html
-          echo "=== STYLESHEETS ==="
-          grep -Eo 'href="[^"]+\.css[^"]*"' /tmp/grow-central.html || true
-          echo "=== CLASS TOKENS ==="
-          grep -Eo 'class="[^"]+"' /tmp/grow-central.html | head -120 || true
-          echo "=== GROW CENTRAL CSS ==="
-          curl -L -sS https://grow-central.de/styles.css?v=4.0.0 | sed -n '1,420p'
+          curl -L -sS "https://grow-central.de/styles.css?v=4.0.0" -o site/styles.css
+          test -s site/styles.css
+          grep -q "site-header" site/styles.css
+          echo "GROW_CENTRAL_DESIGN_OK"
 
       - name: Deploy website to Plesk document root
         shell: bash
