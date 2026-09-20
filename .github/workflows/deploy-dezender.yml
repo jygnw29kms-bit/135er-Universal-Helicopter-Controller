@@ -1,36 +1,57 @@
-name: Deploy website to dezender.de
+name: Deploy dezender website
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
     paths:
-      - "site/**"
-      - ".github/workflows/deploy-dezender.yml"
-  workflow_dispatch:
+      - site/**
+      - .github/workflows/deploy-dezender.yml
+  workflow_dispatch: {}
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      DEZENDER_HOST: ${{ secrets.DEZENDER_HOST }}
+      DEZENDER_USER: ${{ secrets.DEZENDER_USER }}
+      DEZENDER_PORT: ${{ secrets.DEZENDER_PORT }}
+      DEZENDER_PATH: ${{ secrets.DEZENDER_PATH }}
+      DEZENDER_SSH_KEY: ${{ secrets.DEZENDER_SSH_KEY }}
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate deploy secrets
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$DEZENDER_HOST"
+          test -n "$DEZENDER_USER"
+          test -n "$DEZENDER_PORT"
+          test -n "$DEZENDER_PATH"
+          test -n "$DEZENDER_SSH_KEY"
 
       - name: Prepare SSH
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p ~/.ssh
-          chmod 700 ~/.ssh
-          printf '%s
-' "${{ secrets.DEZENDER_SSH_KEY }}" > ~/.ssh/id_dezender
-          chmod 600 ~/.ssh/id_dezender
-          ssh-keyscan -p "${{ secrets.DEZENDER_PORT }}" -H "${{ secrets.DEZENDER_HOST }}" >> ~/.ssh/known_hosts
+          mkdir -p "$HOME/.ssh"
+          chmod 700 "$HOME/.ssh"
+          printf '%s\n' "$DEZENDER_SSH_KEY" > "$HOME/.ssh/id_dezender"
+          chmod 600 "$HOME/.ssh/id_dezender"
+          ssh-keyscan -p "$DEZENDER_PORT" -H "$DEZENDER_HOST" >> "$HOME/.ssh/known_hosts"
+          chmod 600 "$HOME/.ssh/known_hosts"
 
-      - name: Ensure target directory exists
+      - name: Test SSH and create target
         shell: bash
         run: |
-          ssh -i ~/.ssh/id_dezender -p "${{ secrets.DEZENDER_PORT }}"             "${{ secrets.DEZENDER_USER }}@${{ secrets.DEZENDER_HOST }}"             "mkdir -p '${{ secrets.DEZENDER_PATH }}'"
+          set -euo pipefail
+          ssh -i "$HOME/.ssh/id_dezender"             -p "$DEZENDER_PORT"             "$DEZENDER_USER@$DEZENDER_HOST"             "mkdir -p '$DEZENDER_PATH'"
 
-      - name: Deploy site with rsync
+      - name: Deploy site
         shell: bash
         run: |
-          rsync -az --delete             -e "ssh -i ~/.ssh/id_dezender -p ${{ secrets.DEZENDER_PORT }}"             site/             "${{ secrets.DEZENDER_USER }}@${{ secrets.DEZENDER_HOST }}:${{ secrets.DEZENDER_PATH }}/"
+          set -euo pipefail
+          rsync -az --delete             -e "ssh -i $HOME/.ssh/id_dezender -p $DEZENDER_PORT"             site/             "$DEZENDER_USER@$DEZENDER_HOST:$DEZENDER_PATH/"
