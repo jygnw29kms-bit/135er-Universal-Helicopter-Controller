@@ -14,11 +14,11 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install OpenSCAD
         run: sudo apt-get update && sudo apt-get install -y openscad zip
-      - name: Export production STL files
+      - name: Export production and validation STL files
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p build/stl/cyclic build/stl/collective build/stl/pedals
+          mkdir -p build/stl/cyclic build/stl/collective build/stl/pedals build/stl/validation
           for module in cyclic collective pedals; do
             for src in cad/$module/src/*.scad; do
               name=$(basename "$src" .scad)
@@ -28,7 +28,14 @@ jobs:
               openscad -o "build/stl/$module/${name}.stl" "$src"
             done
           done
-          cd build && zip -r 135er-helicopter-controller-v1-stl.zip stl
+
+          openscad -o build/stl/validation/VALIDATION_PLATE_01.stl cad/validation/src/validation_plate_01.scad
+          for part in bearing shaft magnet tube fastener; do
+            openscad -D "part=\"$part\"" -o "build/stl/validation/${part}_fit_coupon.stl" cad/validation/src/fit_coupons.scad
+          done
+
+          cd build
+          zip -r 135er-helicopter-controller-v1-stl.zip stl
       - uses: actions/upload-artifact@v4
         with:
           name: 135er-helicopter-controller-v1-stl
