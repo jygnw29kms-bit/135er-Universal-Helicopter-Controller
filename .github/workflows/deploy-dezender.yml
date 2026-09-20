@@ -1,0 +1,36 @@
+name: Deploy website to dezender.de
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "site/**"
+      - ".github/workflows/deploy-dezender.yml"
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Prepare SSH
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          printf '%s
+' "${{ secrets.DEZENDER_SSH_KEY }}" > ~/.ssh/id_dezender
+          chmod 600 ~/.ssh/id_dezender
+          ssh-keyscan -p "${{ secrets.DEZENDER_PORT }}" -H "${{ secrets.DEZENDER_HOST }}" >> ~/.ssh/known_hosts
+
+      - name: Ensure target directory exists
+        shell: bash
+        run: |
+          ssh -i ~/.ssh/id_dezender -p "${{ secrets.DEZENDER_PORT }}"             "${{ secrets.DEZENDER_USER }}@${{ secrets.DEZENDER_HOST }}"             "mkdir -p '${{ secrets.DEZENDER_PATH }}'"
+
+      - name: Deploy site with rsync
+        shell: bash
+        run: |
+          rsync -az --delete             -e "ssh -i ~/.ssh/id_dezender -p ${{ secrets.DEZENDER_PORT }}"             site/             "${{ secrets.DEZENDER_USER }}@${{ secrets.DEZENDER_HOST }}:${{ secrets.DEZENDER_PATH }}/"
